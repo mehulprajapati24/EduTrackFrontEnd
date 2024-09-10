@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import HeroSection from '../../components/home/HeroSection';
+import Building from '../../components/home/Building';
+import Faculties from '../../components/home/Faculties';
 
 const Home = () => {
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
-    <div>
-        <div>Home hello</div>
-        <button className='bg-slate-400 p-2 rounded text-gray-900'>hello</button>
+    <div className="py-16">
+      <HeroSection/>
+      <Building/>
+      <Faculties/>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
