@@ -15,6 +15,24 @@ import ForgotPassword from './pages/signin/ForgotPassword.jsx'
 import OtpLogin from './pages/signin/OtpLogin.jsx'
 import ChangePassword from './pages/signin/ChangePassword.jsx'
 import Profile from './pages/profile/Profile.jsx'
+import AdminLogin from './pages/admin/login/AdminLogin.jsx'
+import AdminForgotPassword from './pages/admin/login/AdminForgotPassword.jsx'
+import AdminOtpLogin from './pages/admin/login/AdminOtpLogin.jsx'
+import AdminChangePassword from './pages/admin/login/AdminChangePassword.jsx'
+import AdminDashboard from './pages/admin/login/AdminDashboard.jsx'
+import AdminHomePage from './pages/admin/login/AdminHomePage.jsx'
+import AdminErrorPage from './pages/admin/login/AdminErrorPage.jsx'
+import AdminSearchFaculty from './pages/admin/login/AdminSearchFaculty.jsx'
+import ManageFaculties from './pages/admin/login/ManageFaculties.jsx'
+import ManageTimetable from './pages/admin/login/ManageTimetable.jsx'
+import AdminSearchStudent from './pages/admin/login/AdminSearchStudent.jsx'
+import ManageStudents from './pages/admin/login/ManageStudents.jsx'
+import ManageClassBatch from './pages/admin/login/ManageClassBatch.jsx'
+import FacultyDashboard from './pages/faculty/FacultyDashboard.jsx'
+import FacultyHomePage from './pages/faculty/FacultyHomePage.jsx'
+import SearchFaculty from './pages/faculty/SearchFaculty.jsx'
+import SearchStudent from './pages/faculty/SearchStudent.jsx'
+import FacultyTimetable from './pages/faculty/FacultyTimetable.jsx'
 
 const router = createBrowserRouter([
   {
@@ -69,6 +87,79 @@ const router = createBrowserRouter([
   {
     path: "profile",
     element: <Profile/>
+  },
+  {
+    path: "admin/login",
+    element: <AdminLogin/>
+  },
+  {
+    path: "admin/forgot-password",
+    element: <AdminForgotPassword/>
+  },
+  {
+    path: "admin/otp",
+    element: <AdminOtpLogin/>
+  },
+  {
+    path: "admin/reset-password",
+    element: <AdminChangePassword/>
+  },
+  {
+    path: "/admin",
+    element: <AdminDashboard/>,
+    errorElement: <AdminErrorPage/>,
+    children: [
+      {
+        path: "/admin",
+        element: <AdminHomePage/>
+      },
+      {
+        path: "/admin/search-faculty",
+        element: <AdminSearchFaculty/>
+      },
+      {
+        path: "/admin/manage-faculties",
+        element: <ManageFaculties/>
+      },
+      {
+        path: "/admin/manage-timetable",
+        element: <ManageTimetable/>
+      },
+      {
+        path: "/admin/search-student",
+        element: <AdminSearchStudent/>
+      },
+      {
+        path: "/admin/manage-students",
+        element: <ManageStudents/>
+      },
+      {
+        path: "/admin/manage-class-batch",
+        element: <ManageClassBatch/>
+      }
+    ]
+  },
+  {
+    path: "/faculty",
+    element: <FacultyDashboard/>,
+    children: [
+      {
+        path: "/faculty",
+        element: <FacultyHomePage/>
+      },
+      {
+        path: "/faculty/search-faculty",
+        element: <SearchFaculty/>
+      },
+      {
+        path: "/faculty/search-student",
+        element: <SearchStudent/>
+      },
+      {
+        path: "/faculty/timetable",
+        element: <FacultyTimetable/>
+      }
+    ]
   },
   {
     path: "*",

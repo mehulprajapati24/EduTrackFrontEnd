@@ -38,7 +38,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-blue-300 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r bg-[##E0EDFF] p-4">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-8">
         <div className="flex flex-col items-center space-y-4 mb-8 relative">
           <div className="relative">
