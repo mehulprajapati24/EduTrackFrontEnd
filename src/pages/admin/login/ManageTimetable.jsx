@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageTimetable = () => {
+
+  const [admin, setAdmin] = useState(null);
+  const navigate = useNavigate();
   const [academicYear, setAcademicYear] = useState('');
   const [semester, setSemester] = useState('');
   const [selectedClass, setSelectedClass] = useState('');
-  const [selectedBatch, setSelectedBatch] = useState('');
   const [day, setDay] = useState('');
   const [sessions, setSessions] = useState([
     { timeFrom: '', timeTo: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: '', freeSessionBatch: '' }
@@ -12,8 +18,46 @@ const ManageTimetable = () => {
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
   const faculties = ['Dr. Smith', 'Prof. John', 'Ms. Angela', 'Dr. Adams', 'Prof. Clara'];
-  const classes = ['Class A', 'Class B', 'Class C'];  // Example classes
-  const batches = ['Batch 1', 'Batch 2', 'Batch 3'];  // Example batches
+  const [classes, setClasses] = useState([]);
+  const [batches, setBatches] = useState([]);
+
+
+  useEffect(() => {
+    if (academicYear && semester) {
+      getClassesBatches();
+    }
+  }, [academicYear, semester]);
+
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+          const response = await axios.get("http://localhost:5000/admin/validate", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      if (response.data.error) {
+        console.log("No token");
+        navigate("/admin/login");
+        } else {
+            setAdmin(response.data.admin);
+        }
+        }else {
+          navigate("/admin/login");
+      }
+    }catch (error) {
+      toast.error("An error occurred while fetching admin data.");
+      console.log("Error:", error);
+  }
+};
+
+  fetchAdminData();
+}, [navigate]);
+
 
   const handleSessionChange = (index, field, value) => {
     const updatedSessions = [...sessions];
@@ -32,10 +76,45 @@ const ManageTimetable = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Timetable submitted!');
+    // alert('Timetable submitted!');
+
+    console.log(academicYear, semester, selectedClass, day, sessions);
+
+    const response = await axios.post("http://localhost:5000/admin/create-timetable", {
+      academicYear,
+      semester,
+      day,
+      selectedClass,
+      sessions,
+    });
+
+    toast.success(response.data.message, {
+      autoClose: 2000
+    });
+
+    setAcademicYear('');
+    setSemester('');
+    setDay('');
+    setSelectedClass('');
+    setSessions([
+      { timeFrom: '', timeTo: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: '', freeSessionBatch: '' }
+    ]);
   };
+
+  const getClassesBatches = async () => {
+    console.log(academicYear, semester);
+    const response = await axios.get('http://localhost:5000/admin/getclassesbatches', {
+      params: {
+        academicYear,
+        semester,
+      },
+    });
+    // console.log(response.data.classes);
+    setClasses(response.data.classes);
+    setBatches(response.data.batches);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
@@ -54,9 +133,9 @@ const ManageTimetable = () => {
                 className="block w-full mt-1 p-2 border rounded-md"
               >
                 <option value="">Select Academic Year</option>
-                <option value="2023">2023-2024</option>
-                <option value="2024">2024-2025</option>
-                <option value="2025">2025-2026</option>
+                <option value="2023-2024">2023-2024</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
               </select>
             </div>
 
@@ -253,6 +332,7 @@ const ManageTimetable = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

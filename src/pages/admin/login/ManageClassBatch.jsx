@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageClassBatch = () => {
   const [academicYear, setAcademicYear] = useState('');
@@ -8,7 +11,8 @@ const ManageClassBatch = () => {
 
   // Example options
   const academicYears = ['2024-2025', '2025-2026', '2026-2027'];
-  const semesters = ['Semester 1', 'Semester 2', 'Semester 3'];
+  const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
+
 
   const handleAcademicYearChange = (e) => {
     setAcademicYear(e.target.value);
@@ -48,9 +52,28 @@ const ManageClassBatch = () => {
     setBatches(newBatches);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle form submission logic here
-    alert('Form submitted!');
+    console.log(academicYear);
+    console.log(semester);
+    console.log(classes);
+    console.log(batches);
+
+    const response = await axios.post("http://localhost:5000/admin/create-class-batch", {
+        academicYear: academicYear,
+        semester: semester,
+        classes: classes,
+        batches: batches
+    });
+
+    setAcademicYear('');
+    setSemester('');
+    setClasses(['']);
+    setBatches(['']);
+
+    toast.success("Classes and Batches added successfully", {
+        autoClose: 2000
+    });
   };
 
   return (
@@ -154,6 +177,7 @@ const ManageClassBatch = () => {
       >
         Submit
       </button>
+      <ToastContainer />
     </div>
   );
 };

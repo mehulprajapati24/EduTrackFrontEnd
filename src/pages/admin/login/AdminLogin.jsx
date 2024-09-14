@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -7,15 +8,39 @@ const AdminLogin = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate(); // Hook for programmatic navigation
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add your login logic here
-        // Example:
-        // if (email === 'admin@example.com' && password === 'password') {
-        //     navigate('/admin-dashboard'); // Navigate to admin dashboard on successful login
-        // } else {
-        //     setError('Invalid email or password');
-        // }
+       
+        setError('');
+
+        if (!email) {
+            setError("Email is required");
+            return;
+          }
+          if (!password) {
+            setError("Password is required");
+            return;
+          }
+
+          try{
+            const response = await axios.post("http://localhost:5000/admin/login", {
+                email,
+                password
+              });
+
+              if (response.data.error) {
+                // Handle error response
+                const message = response.data.message;
+                setError(message);
+                return;
+              } else {
+                    localStorage.setItem('accessToken', response.data.accessToken);
+                    navigate('/admin');
+              }
+          } catch (error){
+            console.error(error);
+            setError(error.response?.data.message || 'An error occurred');
+          }
     };
 
     return (
