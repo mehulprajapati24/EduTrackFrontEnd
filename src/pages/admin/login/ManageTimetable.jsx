@@ -5,29 +5,27 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ManageTimetable = () => {
-
   const [admin, setAdmin] = useState(null);
   const navigate = useNavigate();
   const [academicYear, setAcademicYear] = useState('');
   const [semester, setSemester] = useState('');
   const [selectedClass, setSelectedClass] = useState('');
-  const [day, setDay] = useState('');
-  const [sessions, setSessions] = useState([
-    { timeFrom: '', timeTo: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: '', freeSessionBatch: '' }
-  ]);
+  const [weeklyTimetable, setWeeklyTimetable] = useState({
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: []
+  });
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  const faculties = ['Dr. Smith', 'Prof. John', 'Ms. Angela', 'Dr. Adams', 'Prof. Clara'];
+  const faculties = ['RU', 'PMS', 'ADS', 'PS', 'PSP', 'KJS', 'PDS', 'RFR'];
   const [classes, setClasses] = useState([]);
   const [batches, setBatches] = useState([]);
+  const [times, setTimes] = useState([]);
 
-
-  useEffect(() => {
-    if (academicYear && semester) {
-      getClassesBatches();
-    }
-  }, [academicYear, semester]);
-
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   useEffect(() => {
     const fetchAdminData = async () => {
@@ -37,84 +35,110 @@ const ManageTimetable = () => {
           const response = await axios.get("http://localhost:5000/admin/validate", {
             headers: {
               Authorization: `Bearer ${token}`,
-          },
-      });
+            },
+          });
 
-      if (response.data.error) {
-        console.log("No token");
-        navigate("/admin/login");
-        } else {
+          if (response.data.error) {
+            navigate("/admin/login");
+          } else {
             setAdmin(response.data.admin);
-        }
-        }else {
+
+
+          }
+        } else {
           navigate("/admin/login");
+        }
+      } catch (error) {
+        toast.error("An error occurred while fetching admin data.");
+        console.log("Error:", error);
       }
-    }catch (error) {
-      toast.error("An error occurred while fetching admin data.");
-      console.log("Error:", error);
-  }
-};
+    };
 
-  fetchAdminData();
-}, [navigate]);
+    fetchAdminData();
+  }, [navigate]);
 
-
-  const handleSessionChange = (index, field, value) => {
-    const updatedSessions = [...sessions];
-    updatedSessions[index][field] = value;
-    setSessions(updatedSessions);
-  };
-
-  const handleAddSession = () => {
-    setSessions([...sessions, { timeFrom: '', timeTo: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: '', freeSessionBatch: '' }]);
-  };
-
-  const handleRemoveSession = (index) => {
-    if (sessions.length > 1) {
-      const updatedSessions = sessions.filter((_, i) => i !== index);
-      setSessions(updatedSessions);
+  useEffect(() => {
+    if (academicYear && semester) {
+      getClassesBatches();
+      getTimes();
     }
+  }, [academicYear, semester]);
+
+  const handleSessionChange = (day, index, field, value) => {
+    const updatedDaySessions = [...weeklyTimetable[day]];
+    updatedDaySessions[index][field] = value;
+    setWeeklyTimetable({ ...weeklyTimetable, [day]: updatedDaySessions });
+  };
+
+  const handleAddSession = (day) => {
+    setWeeklyTimetable({
+      ...weeklyTimetable,
+      [day]: [
+        ...weeklyTimetable[day],
+        { time: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: ''}
+      ]
+    });
+  };
+
+  const handleRemoveSession = (day, index) => {
+    const updatedDaySessions = weeklyTimetable[day].filter((_, i) => i !== index);
+    setWeeklyTimetable({ ...weeklyTimetable, [day]: updatedDaySessions });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // alert('Timetable submitted!');
 
-    console.log(academicYear, semester, selectedClass, day, sessions);
+    console.log(academicYear, semester, selectedClass, weeklyTimetable);
 
-    const response = await axios.post("http://localhost:5000/admin/create-timetable", {
-      academicYear,
-      semester,
-      day,
-      selectedClass,
-      sessions,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/admin/create-timetable", {
+        academicYear,
+        semester,
+        selectedClass,
+        weeklyTimetable,
+      });
 
-    toast.success(response.data.message, {
-      autoClose: 2000
-    });
+      toast.success(response.data.message, {
+        autoClose: 2000
+      });
 
-    setAcademicYear('');
-    setSemester('');
-    setDay('');
-    setSelectedClass('');
-    setSessions([
-      { timeFrom: '', timeTo: '', subject: '', type: 'Lecture', batch: '', faculty: '', location: '', freeSessionBatch: '' }
-    ]);
+      // setAcademicYear('');
+      // setSemester('');
+      // setSelectedClass('');
+      // setWeeklyTimetable({
+      //   Monday: [],
+      //   Tuesday: [],
+      //   Wednesday: [],
+      //   Thursday: [],
+      //   Friday: [],
+      //   Saturday: []
+      // });
+    } catch (error) {
+      toast.error("An error occurred while submitting the timetable.");
+      console.log("Error:", error);
+    }
   };
 
   const getClassesBatches = async () => {
-    console.log(academicYear, semester);
     const response = await axios.get('http://localhost:5000/admin/getclassesbatches', {
       params: {
         academicYear,
         semester,
       },
     });
-    // console.log(response.data.classes);
     setClasses(response.data.classes);
     setBatches(response.data.batches);
-  }
+  };
+
+  const getTimes = async () => {
+    const response = await axios.get('http://localhost:5000/admin/gettimes', {
+      params: {
+        academicYear,
+        semester,
+      },
+    });
+    setTimes(response.data.times);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
@@ -122,7 +146,7 @@ const ManageTimetable = () => {
         <h1 className="text-2xl font-bold text-center mb-6">Add Timetable</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           
-          {/* First Row: Academic Year and Semester */}
+          {/* Academic Year and Semester */}
           <div className="flex space-x-4">
             <div className="w-1/2">
               <label className="block text-gray-700 font-medium">Academic Year:</label>
@@ -155,184 +179,164 @@ const ManageTimetable = () => {
             </div>
           </div>
 
-          {/* Second Row: Class and Day */}
-          <div className="flex space-x-4">
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium">Class:</label>
-              <select 
-                value={selectedClass} 
-                onChange={(e) => setSelectedClass(e.target.value)} 
-                required 
-                className="block w-full mt-1 p-2 border rounded-md"
-              >
-                <option value="">Select Class</option>
-                {classes.map((cls) => (
-                  <option key={cls} value={cls}>{cls}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium">Day:</label>
-              <select 
-                value={day} 
-                onChange={(e) => setDay(e.target.value)} 
-                required 
-                className="block w-full mt-1 p-2 border rounded-md"
-              >
-                <option value="">Select Day</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-              </select>
-            </div>
+          {/* Class */}
+          <div className="w-full">
+            <label className="block text-gray-700 font-medium">Class:</label>
+            <select 
+              value={selectedClass} 
+              onChange={(e) => setSelectedClass(e.target.value)} 
+              required 
+              className="block w-full mt-1 p-2 border rounded-md"
+            >
+              <option value="">Select Class</option>
+              {classes.map((cls) => (
+                <option key={cls} value={cls}>{cls}</option>
+              ))}
+            </select>
           </div>
 
-          {sessions.map((session, index) => (
-            <div key={index} className="space-y-4 border-t pt-4">
-              
-              {/* Time From and Time To in one row */}
-              <div className="flex space-x-4">
-                <div className="w-1/2">
-                  <label className="block text-gray-700 font-medium">Time From:</label>
-                  <input 
-                    type="time" 
-                    value={session.timeFrom} 
-                    onChange={(e) => handleSessionChange(index, 'timeFrom', e.target.value)} 
-                    required 
-                    className="block w-full mt-1 p-2 border rounded-md"
-                  />
-                </div>
+          {/* Timetable for all days */}
+          {daysOfWeek.map((day) => (
+            <div key={day}>
+              <h3 className="text-xl font-bold mt-4 mb-2">{day}</h3>
 
-                <div className="w-1/2">
-                  <label className="block text-gray-700 font-medium">Time To:</label>
-                  <input 
-                    type="time" 
-                    value={session.timeTo} 
-                    onChange={(e) => handleSessionChange(index, 'timeTo', e.target.value)} 
-                    required 
-                    className="block w-full mt-1 p-2 border rounded-md"
-                  />
-                </div>
-              </div>
+              {weeklyTimetable[day].map((session, index) => (
+                <div key={index} className="space-y-4 border-t pt-4">
+                  
+                  {/* Time From and To */}
+                  <div className="flex space-x-4">
+                    <div className="w-full">
+                      <label className="block text-gray-700 font-medium">Time:</label>
+                      <select
+                        value={session.time} 
+                        onChange={(e) => handleSessionChange(day, index, 'time', e.target.value)} 
+                        required 
+                        className="block w-full mt-1 p-2 border rounded-md"
+                      >
+                        <option value="">Select Time</option>
+                        {times.map((time, index) => (
+                          index < times.length - 1 && (
+                            <option key={time} value={`${time} to ${times[index + 1]}`}>
+                              {time} to {times[index + 1]}
+                            </option>
+                          )
+                        ))}
+                        </select>
+                    </div>
+                  </div>
 
-              {/* Subject and Type in one row */}
-              <div className="flex space-x-4">
-                <div className="w-1/2">
-                  <label className="block text-gray-700 font-medium">Type:</label>
-                  <select 
-                    value={session.type} 
-                    onChange={(e) => handleSessionChange(index, 'type', e.target.value)} 
-                    required 
-                    className="block w-full mt-1 p-2 border rounded-md"
+                  {/* Subject and Type */}
+                  <div className="flex space-x-4">
+                    <div className="w-1/2">
+                      <label className="block text-gray-700 font-medium">Type:</label>
+                      <select 
+                        value={session.type} 
+                        onChange={(e) => handleSessionChange(day, index, 'type', e.target.value)} 
+                        required 
+                        className="block w-full mt-1 p-2 border rounded-md"
+                      >
+                        <option value="Lecture">Lecture</option>
+                        <option value="Lab">Lab</option>
+                        <option value="Break">Break</option>
+                        <option value="No Teaching Load">No Teaching Load</option>
+                      </select>
+                    </div>
+
+                    {session.type !== 'Break' && session.type !== 'No Teaching Load' && (
+                      <div className="w-1/2">
+                        <label className="block text-gray-700 font-medium">Subject:</label>
+                        <input 
+                          type="text" 
+                          value={session.subject} 
+                          onChange={(e) => handleSessionChange(day, index, 'subject', e.target.value)} 
+                          required 
+                          className="block w-full mt-1 p-2 border rounded-md"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Batch and Faculty */}
+                  {session.type !== 'Break' && session.type !== 'Lecture' && (
+                    <div className="flex space-x-4">
+                      <div className="w-1/2">
+                        <label className="block text-gray-700 font-medium">Batch:</label>
+                        <select 
+                          value={session.batch} 
+                          onChange={(e) => handleSessionChange(day, index, 'batch', e.target.value)} 
+                          className="block w-full mt-1 p-2 border rounded-md"
+                        >
+                          <option value="">Select Batch</option>
+                          {batches.map((batch) => (
+                            <option key={batch} value={batch}>{batch}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Faculty and Location */}
+                  {session.type !== 'Break' && session.type !== 'No Teaching Load' && (
+                    <div className="flex space-x-4">
+                      <div className="w-1/2">
+                        <label className="block text-gray-700 font-medium">Faculty:</label>
+                        <select 
+                          value={session.faculty} 
+                          onChange={(e) => handleSessionChange(day, index, 'faculty', e.target.value)} 
+                          className="block w-full mt-1 p-2 border rounded-md"
+                        >
+                          <option value="">Select Faculty</option>
+                          {faculties.map((faculty) => (
+                            <option key={faculty} value={faculty}>{faculty}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="w-1/2">
+                        <label className="block text-gray-700 font-medium">Location:</label>
+                        <input 
+                          type="text" 
+                          value={session.location} 
+                          onChange={(e) => handleSessionChange(day, index, 'location', e.target.value)} 
+                          required 
+                          className="block w-full mt-1 p-2 border rounded-md"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Remove Session */}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSession(day, index)}
+                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md"
                   >
-                    <option value="Lecture">Lecture</option>
-                    <option value="Lab">Lab</option>
-                    <option value="Break">Break</option>
-                    <option value="No Teaching Load">No Teaching Load</option>
-                  </select>
+                    Remove Session
+                  </button>
                 </div>
+              ))}
 
-                {session.type !== 'Break' && session.type !== 'No Teaching Load' && (
-                  <div className="w-1/2">
-                    <label className="block text-gray-700 font-medium">Subject:</label>
-                    <input 
-                      type="text" 
-                      value={session.subject} 
-                      onChange={(e) => handleSessionChange(index, 'subject', e.target.value)} 
-                      placeholder="Enter Subject" 
-                      required 
-                      className="block w-full mt-1 p-2 border rounded-md"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Show Batch if type is Lab or No Teaching Load */}
-              {(session.type === 'Lab' || session.type === 'No Teaching Load') && (
-                <div className="flex space-x-4">
-                  <div className="w-1/2">
-                    <label className="block text-gray-700 font-medium">{session.type === 'No Teaching Load' ? 'Free Session Batch:' : 'Batch:'}</label>
-                    <select 
-                      value={session.type === 'No Teaching Load' ? session.freeSessionBatch : session.batch} 
-                      onChange={(e) => handleSessionChange(index, session.type === 'No Teaching Load' ? 'freeSessionBatch' : 'batch', e.target.value)} 
-                      required 
-                      className="block w-full mt-1 p-2 border rounded-md"
-                    >
-                      <option value="">Select {session.type === 'No Teaching Load' ? 'Free Session Batch' : 'Batch'}</option>
-                      {batches.map((batch) => (
-                        <option key={batch} value={batch}>{batch}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              {/* Show Faculty and Location if type is not Break and not No Teaching Load */}
-              {session.type !== 'Break' && session.type !== 'No Teaching Load' && (
-                <div className="flex space-x-4">
-                  <div className="w-1/2">
-                    <label className="block text-gray-700 font-medium">Faculty:</label>
-                    <select 
-                      value={session.faculty} 
-                      onChange={(e) => handleSessionChange(index, 'faculty', e.target.value)} 
-                      required 
-                      className="block w-full mt-1 p-2 border rounded-md"
-                    >
-                      <option value="">Select Faculty</option>
-                      {faculties.map((faculty) => (
-                        <option key={faculty} value={faculty}>{faculty}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="w-1/2">
-                    <label className="block text-gray-700 font-medium">Location:</label>
-                    <input 
-                      type="text" 
-                      value={session.location} 
-                      onChange={(e) => handleSessionChange(index, 'location', e.target.value)} 
-                      placeholder="Enter Location" 
-                      required 
-                      className="block w-full mt-1 p-2 border rounded-md"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Remove button for each session */}
-              <button 
-                type="button" 
-                onClick={() => handleRemoveSession(index)} 
-                className="text-red-500 hover:text-red-700 mt-2"
+              {/* Add Session */}
+              <button
+                type="button"
+                onClick={() => handleAddSession(day)}
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md"
               >
-                Remove Session
+                Add Session for {day}
               </button>
             </div>
           ))}
 
-          {/* Add Session Button */}
-          <button 
-            type="button" 
-            onClick={handleAddSession} 
-            className="text-blue-500 hover:text-blue-700 mt-4"
-          >
-            Add Session
-          </button>
-
           {/* Submit Button */}
-          <button 
-            type="submit" 
-            className="w-full mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+          <button
+            type="submit"
+            className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md"
           >
             Submit Timetable
           </button>
         </form>
+        <ToastContainer />
       </div>
-      <ToastContainer />
     </div>
   );
 };

@@ -33,6 +33,8 @@ import FacultyHomePage from './pages/faculty/FacultyHomePage.jsx'
 import SearchFaculty from './pages/faculty/SearchFaculty.jsx'
 import SearchStudent from './pages/faculty/SearchStudent.jsx'
 import FacultyTimetable from './pages/faculty/FacultyTimetable.jsx'
+import ManageSession from './pages/admin/login/ManageSession.jsx'
+import AdminViewTimetable from './pages/admin/login/AdminViewTimetable.jsx'
 
 const router = createBrowserRouter([
   {
@@ -136,6 +138,14 @@ const router = createBrowserRouter([
       {
         path: "/admin/manage-class-batch",
         element: <ManageClassBatch/>
+      },
+      {
+        path: "/admin/manage-session",
+        element: <ManageSession/>
+      },
+      {
+        path: "/admin/view-timetable",
+        element: <AdminViewTimetable/>
       }
     ]
   },

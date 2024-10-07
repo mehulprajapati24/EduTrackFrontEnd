@@ -65,6 +65,22 @@ const Sidebar = () => {
                             </Link>
                         </li>
                         <li>
+                            <Link
+                                to="/admin/manage-session"
+                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
+                            >
+                                Manage Session
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/admin/view-timetable"
+                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
+                            >
+                                View Timetable
+                            </Link>
+                        </li>
+                        <li>
                             <button
                                 className="w-full text-left py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                                 onClick={() => {
