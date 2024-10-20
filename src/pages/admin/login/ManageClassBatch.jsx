@@ -1,18 +1,16 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ManageClassBatch = () => {
   const [academicYear, setAcademicYear] = useState('');
   const [semester, setSemester] = useState('');
-  const [classes, setClasses] = useState(['']);
-  const [batches, setBatches] = useState(['']);
+  const [classBatchData, setClassBatchData] = useState([{ className: '', batches: [''] }]);
 
   // Example options
   const academicYears = ['2024-2025', '2025-2026', '2026-2027'];
   const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
-
 
   const handleAcademicYearChange = (e) => {
     setAcademicYear(e.target.value);
@@ -23,57 +21,62 @@ const ManageClassBatch = () => {
   };
 
   const handleClassChange = (index, e) => {
-    const newClasses = [...classes];
-    newClasses[index] = e.target.value;
-    setClasses(newClasses);
+    const newClassBatchData = [...classBatchData];
+    newClassBatchData[index].className = e.target.value;
+    setClassBatchData(newClassBatchData);
   };
 
-  const handleBatchChange = (index, e) => {
-    const newBatches = [...batches];
-    newBatches[index] = e.target.value;
-    setBatches(newBatches);
+  const handleBatchChange = (classIndex, batchIndex, e) => {
+    const newClassBatchData = [...classBatchData];
+    newClassBatchData[classIndex].batches[batchIndex] = e.target.value;
+    setClassBatchData(newClassBatchData);
   };
 
   const addClassField = () => {
-    setClasses([...classes, '']);
-  };
-
-  const addBatchField = () => {
-    setBatches([...batches, '']);
+    setClassBatchData([...classBatchData, { className: '', batches: [''] }]);
   };
 
   const removeClassField = (index) => {
-    const newClasses = classes.filter((_, i) => i !== index);
-    setClasses(newClasses);
+    const newClassBatchData = classBatchData.filter((_, i) => i !== index);
+    setClassBatchData(newClassBatchData);
   };
 
-  const removeBatchField = (index) => {
-    const newBatches = batches.filter((_, i) => i !== index);
-    setBatches(newBatches);
+  const addBatchField = (classIndex) => {
+    const newClassBatchData = [...classBatchData];
+    newClassBatchData[classIndex].batches.push('');
+    setClassBatchData(newClassBatchData);
+  };
+
+  const removeBatchField = (classIndex, batchIndex) => {
+    const newClassBatchData = [...classBatchData];
+    newClassBatchData[classIndex].batches = newClassBatchData[classIndex].batches.filter((_, i) => i !== batchIndex);
+    setClassBatchData(newClassBatchData);
   };
 
   const handleSubmit = async () => {
     // Handle form submission logic here
     console.log(academicYear);
     console.log(semester);
-    console.log(classes);
-    console.log(batches);
+    console.log(classBatchData);
 
-    const response = await axios.post("http://localhost:5000/admin/create-class-batch", {
+    try {
+      const response = await axios.post("http://localhost:5000/admin/create-class-batch", {
         academicYear: academicYear,
         semester: semester,
-        classes: classes,
-        batches: batches
-    });
+        classes: classBatchData,
+      });
 
-    setAcademicYear('');
-    setSemester('');
-    setClasses(['']);
-    setBatches(['']);
+      setAcademicYear('');
+      setSemester('');
+      setClassBatchData([{ className: '', batches: [''] }]);
 
-    toast.success("Classes and Batches added successfully", {
-        autoClose: 2000
-    });
+      toast.success("Classes and Batches added successfully", {
+        autoClose: 2000,
+      });
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      toast.error("Failed to add classes and batches");
+    }
   };
 
   return (
@@ -110,73 +113,77 @@ const ManageClassBatch = () => {
         </select>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Classes</label>
-        {classes.map((cls, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <input
-              type="text"
-              value={cls}
-              onChange={(e) => handleClassChange(index, e)}
-              className="p-2 w-full rounded-lg border"
-              placeholder="Enter class"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => removeClassField(index)}
-              className="ml-2 bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600"
-            >
-              Remove
-            </button>
+      {classBatchData.map((classData, classIndex) => (
+        <div key={classIndex} className="mb-4">
+          <div className="mb-2">
+            <label className="block text-sm font-medium mb-1">Class {classIndex + 1}</label>
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={classData.className}
+                onChange={(e) => handleClassChange(classIndex, e)}
+                className="p-2 w-full rounded-lg border"
+                placeholder="Enter class name"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => removeClassField(classIndex)}
+                className="ml-2 bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600"
+              >
+                Remove Class
+              </button>
+            </div>
           </div>
-        ))}
-        <button
-          type="button"
-          onClick={addClassField}
-          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
-        >
-          Add Class
-        </button>
-      </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Batches</label>
-        {batches.map((batch, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <input
-              type="text"
-              value={batch}
-              onChange={(e) => handleBatchChange(index, e)}
-              className="p-2 w-full rounded-lg border"
-              placeholder="Enter batch"
-              required
-            />
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Batches for Class {classIndex + 1}</label>
+            {classData.batches.map((batch, batchIndex) => (
+              <div key={batchIndex} className="flex items-center mb-2">
+                <input
+                  type="text"
+                  value={batch}
+                  onChange={(e) => handleBatchChange(classIndex, batchIndex, e)}
+                  className="p-2 w-full rounded-lg border"
+                  placeholder="Enter batch name"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => removeBatchField(classIndex, batchIndex)}
+                  className="ml-2 bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600"
+                >
+                  Remove Batch
+                </button>
+              </div>
+            ))}
             <button
               type="button"
-              onClick={() => removeBatchField(index)}
-              className="ml-2 bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600"
+              onClick={() => addBatchField(classIndex)}
+              className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
             >
-              Remove
+              Add Batch
             </button>
           </div>
-        ))}
-        <button
-          type="button"
-          onClick={addBatchField}
-          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
-        >
-          Add Batch
-        </button>
-      </div>
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={addClassField}
+        className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mb-4"
+      >
+        Add Class
+      </button>
 
       <button
         type="button"
         onClick={handleSubmit}
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 block"
       >
         Submit
       </button>
+
       <ToastContainer />
     </div>
   );

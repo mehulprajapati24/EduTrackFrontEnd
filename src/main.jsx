@@ -35,6 +35,7 @@ import SearchStudent from './pages/faculty/SearchStudent.jsx'
 import FacultyTimetable from './pages/faculty/FacultyTimetable.jsx'
 import ManageSession from './pages/admin/login/ManageSession.jsx'
 import AdminViewTimetable from './pages/admin/login/AdminViewTimetable.jsx'
+import ImportGoogleSheets from './pages/admin/login/ImportGoogleSheets.jsx'
 
 const router = createBrowserRouter([
   {
@@ -146,6 +147,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/view-timetable",
         element: <AdminViewTimetable/>
+      },
+      {
+        path: "/admin/import-google-sheets",
+        element: <ImportGoogleSheets/>
       }
     ]
   },

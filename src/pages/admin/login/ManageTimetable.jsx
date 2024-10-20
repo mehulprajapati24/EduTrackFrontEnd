@@ -59,10 +59,16 @@ const ManageTimetable = () => {
 
   useEffect(() => {
     if (academicYear && semester) {
-      getClassesBatches();
+      getClasses();
       getTimes();
     }
   }, [academicYear, semester]);
+
+  useEffect(() => {
+    if (academicYear && semester && selectedClass) {
+      getBatches();
+    }
+  }, [academicYear, semester, selectedClass]);
 
   const handleSessionChange = (day, index, field, value) => {
     const updatedDaySessions = [...weeklyTimetable[day]];
@@ -119,14 +125,27 @@ const ManageTimetable = () => {
     }
   };
 
-  const getClassesBatches = async () => {
-    const response = await axios.get('http://localhost:5000/admin/getclassesbatches', {
+  const getClasses = async () => {
+    const response = await axios.get('http://localhost:5000/admin/getclasses', {
       params: {
         academicYear,
         semester,
       },
     });
+    // console.log(response.data.classes);
     setClasses(response.data.classes);
+    // setBatches(response.data.batches);
+  };
+
+  const getBatches = async () => {
+    const response = await axios.get('http://localhost:5000/admin/getbatches', {
+      params: {
+        academicYear,
+        semester,
+        selectedClass
+      },
+    });
+    //console.log(response.data.batches);
     setBatches(response.data.batches);
   };
 
