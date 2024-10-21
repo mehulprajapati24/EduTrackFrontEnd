@@ -183,15 +183,22 @@ const SelectClassOrFaculty = () => {
                   <tbody>
                     {timetableData.map((row, rowIndex) => (
                       <tr key={rowIndex} className="hover:bg-gray-100">
-                        {row.map((cell, cellIndex) => (
+                        {row.map((cell, cellIndex) => {
+                          let modifiedCell = cell.split('\n').filter(line => {
+                            const trimmedLine = line.trim();
+                            return trimmedLine !== "1" && trimmedLine !== "2"; // Filter out "1" and "2"
+                          }).join('\n');
+
+                          return (
                           <td
                             key={cellIndex}
                             className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
                             style={{ verticalAlign: 'middle', ...(getCellClass(cell) || {}) }} // Center vertically
                           >
-                            <pre>{cell}</pre>
+                            <pre>{modifiedCell}</pre>
                           </td>
-                        ))}
+                          );
+                        })}
                       </tr>
                     ))}
                   </tbody>
@@ -208,21 +215,29 @@ const SelectClassOrFaculty = () => {
                   <tbody>
 
                   <tr className="hover:bg-gray-100">
-                    <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}>Day/Time</td>
-                    <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}><pre>{timeWiseTimetableData[0]}</pre></td>
+                    <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}>Time/Day</td>
+                    
+                    {timeWiseTimetableData.slice(1).map((row) => (
+                      <>
+                      <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}>{selectedDay}</td>
+                      </>
+                  ))}
                   </tr>
 
+                  <tr className="hover:bg-gray-100">
+                  <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}><pre>{timeWiseTimetableData[0]}</pre></td>
+
                   {timeWiseTimetableData.slice(1).map((row, index) => (
-                    <tr key={index} className="hover:bg-gray-100">
-                      <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}>{selectedDay}</td>
+                    <>
                       <td
                       className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
                       style={{ verticalAlign: 'middle', ...(getCellClass(row) || {}) }} // Center vertically
                       >
                       <pre>{row}</pre>
                       </td>
-                    </tr>
+                    </>
                   ))}
+                  </tr>
                   </tbody>
                 </table>
               </div>

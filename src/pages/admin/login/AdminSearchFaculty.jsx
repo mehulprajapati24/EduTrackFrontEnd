@@ -6,6 +6,7 @@ const AdminSearchFaculty = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [location, setLocation] = useState('');
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     const fetchFaculties = async () => {
@@ -40,6 +41,7 @@ const AdminSearchFaculty = () => {
     
       const response = await axios.post('http://localhost:5000/admin/get-faculty-location', { facultyName: shortName }); // Adjusted payload
       setLocation(response.data.location);
+      setTime(response.data.time);
       setSelectedFaculty(faculty);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -92,7 +94,7 @@ const AdminSearchFaculty = () => {
               <li><strong>Branch:</strong> {selectedFaculty.branch}</li>
               <li><strong>Phone:</strong> {selectedFaculty.phone}</li>
               <li><strong>GNU Email:</strong> {selectedFaculty.gnuemail}</li>
-              <li><strong>Location:</strong> {location}</li>
+              <li><strong>Location:</strong> {location} ({time})</li>
             </ul>
             <button
               onClick={() => setSelectedFaculty(null)}

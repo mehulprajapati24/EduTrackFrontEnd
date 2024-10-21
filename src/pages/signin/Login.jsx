@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Add Axios
 
 const Login = () => {
     const [enrollmentNumber, setEnrollmentNumber] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:5000/login', {
+                enrollmentNumber,
+                password
+            });
+
+            if (error) {
+                setError(response.data.error);
+            }
+            else{
+                navigate('/require'); // Adjust the route as needed
+            }
+        } catch (error) {
+            // Handle error response
+            setError('Invalid enrollment number or password.');
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -14,7 +37,7 @@ const Login = () => {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="space-y-6" method='post'>
+                <form className="space-y-6" method='post' onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm">
                         <div className="mb-4">
                             <label htmlFor="enrollmentNumber" className="sr-only">
