@@ -15,7 +15,7 @@ const FacultyOtpLogin = () => {
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("https://edu-track-backend-ten.vercel.app/faculty/otp", { email });
+    const response = await axios.post("http://localhost:5000/faculty/otp", { email });
     setError('');
   };
 
@@ -23,7 +23,7 @@ const FacultyOtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://edu-track-backend-ten.vercel.app/faculty/forgot-password/otp', { email, otp });
+      const response = await axios.post('http://localhost:5000/faculty/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);
