@@ -15,7 +15,7 @@ const Header = () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               // Make a GET request and pass the headers as the second argument
-              const response = await axios.get('https://edu-track-backend-ten.vercel.app/getProfile', {
+              const response = await axios.get('https://edu-track-back-end.vercel.app/getProfile', {
                 headers: {
                   Authorization: `Bearer ${token}`  // authorization header
                 }

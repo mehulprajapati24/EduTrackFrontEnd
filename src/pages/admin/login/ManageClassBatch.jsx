@@ -60,7 +60,7 @@ const ManageClassBatch = () => {
     console.log(classBatchData);
 
     try {
-      const response = await axios.post("https://edu-track-backend-ten.vercel.app/admin/create-class-batch", {
+      const response = await axios.post("https://edu-track-back-end.vercel.app/admin/create-class-batch", {
         academicYear: academicYear,
         semester: semester,
         classes: classBatchData,

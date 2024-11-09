@@ -15,7 +15,7 @@ const OtpLogin = () => {
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("https://edu-track-backend-ten.vercel.app/otp", { email });
+    const response = await axios.post("https://edu-track-back-end.vercel.app/otp", { email });
     setError('');
   };
 
@@ -23,7 +23,7 @@ const OtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://edu-track-backend-ten.vercel.app/forgot-password/otp', { email, otp });
+      const response = await axios.post('https://edu-track-back-end.vercel.app/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);

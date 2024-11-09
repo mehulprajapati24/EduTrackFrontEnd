@@ -12,7 +12,7 @@ const Schedule = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get('https://edu-track-backend-ten.vercel.app/getSchedule', {
+          const response = await axios.get('https://edu-track-back-end.vercel.app/getSchedule', {
             headers: {
               Authorization: `Bearer ${token}`,
             },

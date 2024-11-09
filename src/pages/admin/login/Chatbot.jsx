@@ -17,7 +17,7 @@ const Chatbot = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-students-data');
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-students-data');
       setStudents(response.data.students);
       // console.log(response.data.students);
     } catch (error) {
@@ -27,7 +27,7 @@ const Chatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -36,7 +36,7 @@ const Chatbot = () => {
 
   const fetchShifts = async () => {
     try {
-      const response = await axios.get("https://edu-track-backend-ten.vercel.app/admin/viewShifts");
+      const response = await axios.get("https://edu-track-back-end.vercel.app/admin/viewShifts");
       setShifts(response.data.shift);
     } catch (error) {
       console.error("Error fetching shift data:", error);
@@ -45,7 +45,7 @@ const Chatbot = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-room-data'); // Adjust API endpoint as needed
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-room-data'); // Adjust API endpoint as needed
       setRooms(response.data.rooms);
     } catch (error) {
       console.error('Error fetching room data:', error);
@@ -54,7 +54,7 @@ const Chatbot = () => {
 
   const fetchStudentLocation = async () => {
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-students-location'); // Adjust API endpoint as needed
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-students-location'); // Adjust API endpoint as needed
       setStudentsWithLocation(response.data.studentWithLocation);
     } catch (error) {
       console.error('Error fetching student location data:', error);
@@ -135,7 +135,7 @@ const Chatbot = () => {
       const dayMatch = inputData.match(dayPattern);
       const day = dayMatch ? dayMatch[0] : null;
 
-      const responseLocation = await axios.post('https://edu-track-backend-ten.vercel.app/admin/get-student-location-based-on-prompt',{
+      const responseLocation = await axios.post('https://edu-track-back-end.vercel.app/admin/get-student-location-based-on-prompt',{
         enrollment,
         name,
         time,

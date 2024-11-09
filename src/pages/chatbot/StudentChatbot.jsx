@@ -19,7 +19,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edu-track-backend-ten.vercel.app/fetchProfile", {
+        const response = await axios.get("https://edu-track-back-end.vercel.app/fetchProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ const StudentChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -46,7 +46,7 @@ const StudentChatbot = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edu-track-backend-ten.vercel.app/getSchedule', {
+        const response = await axios.get('https://edu-track-back-end.vercel.app/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edu-track-backend-ten.vercel.app/getStudentTimetable", {
+        const response = await axios.get("https://edu-track-back-end.vercel.app/getStudentTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

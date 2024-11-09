@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://edu-track-backend-ten.vercel.app/login', {
+            const response = await axios.post('https://edu-track-back-end.vercel.app/login', {
                 enrollmentNumber,
                 password
             });

@@ -15,7 +15,7 @@ const SelectClassOrFaculty = () => {
   useEffect(() => {
     const fetchTimetableOptions = async () => {
       try {
-        const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-timetables-sheetname');
+        const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-timetables-sheetname');
         setOptions(response.data.sheets);
       } catch (error) {
         console.error('Error fetching timetable options:', error);
@@ -35,7 +35,7 @@ const SelectClassOrFaculty = () => {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-timetable-basedOnSheetName', {
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-timetable-basedOnSheetName', {
         params: {
           sheetName: selectedSheetName,
         },
@@ -57,7 +57,7 @@ const SelectClassOrFaculty = () => {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-daywise-timetable', {
+      const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-daywise-timetable', {
         params: {
           sheetName: selectedTimetable,
           day: selectedDay,
@@ -80,7 +80,7 @@ const SelectClassOrFaculty = () => {
         setError(null); // Reset error state
 
         try {
-          const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-timetable-based-on-time', {
+          const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-timetable-based-on-time', {
             params: {
               sheetName: selectedTimetable,
               day: selectedDay,
@@ -320,7 +320,7 @@ export default SelectClassOrFaculty;
 //   };
 
 //   const getTimes = async () => {
-//     const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/gettimes', {
+//     const response = await axios.get('https://edu-track-back-end.vercel.app/admin/gettimes', {
 //       params: {
 //         academicYear: academicYear,
 //         semester: semester,
@@ -330,7 +330,7 @@ export default SelectClassOrFaculty;
 //   };
 
 //   const fetchTimetable = async () => {
-//     const response = await axios.get('https://edu-track-backend-ten.vercel.app/get-timetable', {
+//     const response = await axios.get('https://edu-track-back-end.vercel.app/get-timetable', {
 //       params: {
 //         academicYear: academicYear,
 //         semester: semester,

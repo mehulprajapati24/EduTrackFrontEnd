@@ -9,7 +9,7 @@ const Faculties = () => {
   useEffect(() => {
     const fetchFaculties = async () => {
       try {
-        const response = await axios.get('https://edu-track-backend-ten.vercel.app/getFaculties');
+        const response = await axios.get('https://edu-track-back-end.vercel.app/getFaculties');
         setFaculties(response.data.faculties);
       } catch (error) {
         console.error('Error fetching faculty data:', error);

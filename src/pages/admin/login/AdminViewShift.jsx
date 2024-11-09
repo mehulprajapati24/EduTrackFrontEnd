@@ -8,7 +8,7 @@ const AdminViewShift = () => {
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const response = await axios.get("https://edu-track-backend-ten.vercel.app/admin/viewShifts");
+        const response = await axios.get("https://edu-track-back-end.vercel.app/admin/viewShifts");
         setShifts(response.data.shift);
       } catch (error) {
         console.error("Error fetching shift data:", error);

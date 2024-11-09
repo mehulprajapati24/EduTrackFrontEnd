@@ -12,7 +12,7 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("https://edu-track-backend-ten.vercel.app/admin/validate", {
+          const response = await axios.get("https://edu-track-back-end.vercel.app/admin/validate", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
