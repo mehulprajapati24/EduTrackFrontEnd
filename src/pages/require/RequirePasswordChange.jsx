@@ -51,7 +51,7 @@ const RequirePasswordChange = () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
           const response = await axios.post(
-            'http://localhost:5000/require',
+            'https://edu-track-backend-ten.vercel.app/require',
             {
               password,  // data being sent
               image

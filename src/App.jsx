@@ -16,7 +16,7 @@ function App() {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("http://localhost:5000/fetchProfile", {
+          const response = await axios.get("https://edu-track-backend-ten.vercel.app/fetchProfile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

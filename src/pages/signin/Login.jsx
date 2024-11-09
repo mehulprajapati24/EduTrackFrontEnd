@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('https://edu-track-backend-ten.vercel.app/login', {
                 enrollmentNumber,
                 password
             });
