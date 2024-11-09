@@ -18,7 +18,7 @@ const FacultyChatbot = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-u70s.onrender.com/admin/get-students-data');
+      const response = await axios.get('http://localhost:5000/admin/get-students-data');
       setStudents(response.data.students);
       // console.log(response.data.students);
     } catch (error) {
@@ -28,7 +28,7 @@ const FacultyChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-u70s.onrender.com/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -39,7 +39,7 @@ const FacultyChatbot = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edutrackbackend-u70s.onrender.com/faculty/getSchedule', {
+        const response = await axios.get('http://localhost:5000/faculty/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ const FacultyChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edutrackbackend-u70s.onrender.com/faculty/getFacultyTimetable", {
+        const response = await axios.get("http://localhost:5000/faculty/getFacultyTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -79,7 +79,7 @@ const FacultyChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edutrackbackend-u70s.onrender.com/faculty/getShiftsOfFaculty", {
+        const response = await axios.get("http://localhost:5000/faculty/getShiftsOfFaculty", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -96,7 +96,7 @@ const FacultyChatbot = () => {
 
   const fetchStudentLocation = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-u70s.onrender.com/admin/get-students-location'); // Adjust API endpoint as needed
+      const response = await axios.get('http://localhost:5000/admin/get-students-location'); // Adjust API endpoint as needed
       setStudentsWithLocation(response.data.studentWithLocation);
     } catch (error) {
       console.error('Error fetching room data:', error);
@@ -195,7 +195,7 @@ if(timetableData){
       const dayMatch = inputData.match(dayPattern);
       const day = dayMatch ? dayMatch[0] : null;
 
-      const responseLocation = await axios.post('https://edutrackbackend-u70s.onrender.com/admin/get-student-location-based-on-prompt',{
+      const responseLocation = await axios.post('http://localhost:5000/admin/get-student-location-based-on-prompt',{
         enrollment,
         name,
         time,
