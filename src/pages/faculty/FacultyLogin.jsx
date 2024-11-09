@@ -12,7 +12,7 @@ const FacultyLogin = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://edutrackbackend-42jx.onrender.com/faculty/login', {
+            const response = await axios.post('https://edutrackbackend-u70s.onrender.com/faculty/login', {
                 enrollmentNumber,
                 password
             });

@@ -12,7 +12,7 @@ const FacultyDashboard = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("https://edutrackbackend-42jx.onrender.com/faculty/getProfile", {
+          const response = await axios.get("https://edutrackbackend-u70s.onrender.com/faculty/getProfile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

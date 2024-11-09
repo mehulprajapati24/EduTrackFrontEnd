@@ -19,7 +19,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get("https://edutrackbackend-42jx.onrender.com/faculty/getProfile", {
+        const response = await axios.get("https://edutrackbackend-u70s.onrender.com/faculty/getProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edutrackbackend-42jx.onrender.com/faculty/getSchedule', {
+        const response = await axios.get('https://edutrackbackend-u70s.onrender.com/faculty/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,7 +55,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token && startTime) {
-        await axios.post('https://edutrackbackend-42jx.onrender.com/faculty/startShift', {
+        await axios.post('https://edutrackbackend-u70s.onrender.com/faculty/startShift', {
           startTime,
         }, {
           headers: { Authorization: `Bearer ${token}` },
@@ -75,7 +75,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token && endTime) {
-        const response = await axios.post('https://edutrackbackend-42jx.onrender.com/faculty/endShift', {
+        const response = await axios.post('https://edutrackbackend-u70s.onrender.com/faculty/endShift', {
           endTime,
         }, {
           headers: { Authorization: `Bearer ${token}` },
@@ -95,7 +95,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if(token){
-        const response = await axios.get("https://edutrackbackend-42jx.onrender.com/faculty/get-fields", {
+        const response = await axios.get("https://edutrackbackend-u70s.onrender.com/faculty/get-fields", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
