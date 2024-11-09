@@ -48,7 +48,7 @@ const ManageSession = () => {
     // Handle form submission logic
     console.log(academicYear, semester, times.map(formatTime));
 
-    const response = await axios.post('https://edu-track-back-end.vercel.app/admin/create-session', {
+    const response = await axios.post('http://localhost:5000/admin/create-session', {
       academicYear,
       semester,
       times: times.map(formatTime),

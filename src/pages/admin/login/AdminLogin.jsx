@@ -23,7 +23,7 @@ const AdminLogin = () => {
           }
 
           try{
-            const response = await axios.post("https://edu-track-back-end.vercel.app/admin/login", {
+            const response = await axios.post("http://localhost:5000/admin/login", {
                 email,
                 password
               });

@@ -19,7 +19,7 @@ const ForgotPassword = () => {
       return;
     }
 
-    const response = await axios.post("https://edu-track-back-end.vercel.app/otp", { email });
+    const response = await axios.post("http://localhost:5000/otp", { email });
 
     if(response.data.error){
       setError(response.data.message);

@@ -25,7 +25,7 @@ const ImportGoogleSheets = () => {
           
           setLoading(true);  // Show loader
           
-          const response = await axios.post('https://edu-track-back-end.vercel.app/admin/add-sheet-id', { sheetId });
+          const response = await axios.post('http://localhost:5000/admin/add-sheet-id', { sheetId });
           
           toast.success(response.data.message, {
             autoClose: 2000

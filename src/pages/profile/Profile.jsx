@@ -14,7 +14,7 @@ const Profile = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edu-track-back-end.vercel.app/fetchProfile', {
+        const response = await axios.get('http://localhost:5000/fetchProfile', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -47,7 +47,7 @@ const Profile = () => {
           const token = localStorage.getItem('accessToken');
           if (token) {
             await axios.post(
-              'https://edu-track-back-end.vercel.app/updateProfileImage',
+              'http://localhost:5000/updateProfileImage',
               { image: cdnUrl },
               {
                 headers: {

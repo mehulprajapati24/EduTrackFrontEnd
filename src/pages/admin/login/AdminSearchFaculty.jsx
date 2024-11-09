@@ -11,7 +11,7 @@ const AdminSearchFaculty = () => {
   useEffect(() => {
     const fetchFaculties = async () => {
       try {
-        const response = await axios.get('https://edu-track-back-end.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
+        const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
         setFaculties(response.data.faculties);
       } catch (error) {
         console.error('Error fetching faculty data:', error);
@@ -39,7 +39,7 @@ const AdminSearchFaculty = () => {
     
       const shortName = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
     
-      const response = await axios.post('https://edu-track-back-end.vercel.app/admin/get-faculty-location', { facultyName: shortName }); // Adjusted payload
+      const response = await axios.post('http://localhost:5000/admin/get-faculty-location', { facultyName: shortName }); // Adjusted payload
       setLocation(response.data.location);
       setTime(response.data.time);
       setSelectedFaculty(faculty);
