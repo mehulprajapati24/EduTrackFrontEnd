@@ -36,6 +36,12 @@ import FacultyTimetable from './pages/faculty/FacultyTimetable.jsx'
 import ManageSession from './pages/admin/login/ManageSession.jsx'
 import AdminViewTimetable from './pages/admin/login/AdminViewTimetable.jsx'
 import ImportGoogleSheets from './pages/admin/login/ImportGoogleSheets.jsx'
+import FacultyLogin from './pages/faculty/FacultyLogin.jsx'
+import FacultyRequiredPasswordChange from './pages/faculty/FacultyRequiredPasswordChange.jsx'
+import FacultyForgotPassword from './pages/faculty/FacultyForgotPassword.jsx'
+import FacultyOtpLogin from './pages/faculty/FacultyOtpLogin.jsx'
+import FacultyChangePassword from './pages/faculty/FacultyChangePassword.jsx'
+import AdminViewShift from './pages/admin/login/AdminViewShift.jsx'
 
 const router = createBrowserRouter([
   {
@@ -64,6 +70,26 @@ const router = createBrowserRouter([
         element: <FacultyLocation/>
       }
     ]
+  },
+  {
+    path: "/faculty/login",
+    element: <FacultyLogin/>
+  },
+  {
+    path: "/faculty/require",
+    element: <FacultyRequiredPasswordChange/>
+  },
+  {
+    path: "/faculty/forgot-password",
+    element: <FacultyForgotPassword/>
+  },
+  {
+    path: "/faculty/otp",
+    element: <FacultyOtpLogin/>
+  },
+  {
+    path: "/faculty/reset-password",
+    element: <FacultyChangePassword/>
   },
   {
     path: "login",
@@ -147,6 +173,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/view-timetable",
         element: <AdminViewTimetable/>
+      },
+      {
+        path: "/admin/view-shift",
+        element: <AdminViewShift/>
       },
       {
         path: "/admin/import-google-sheets",

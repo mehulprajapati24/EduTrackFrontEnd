@@ -6,6 +6,7 @@ const AdminSearchStudent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [location, setLocation] = useState('');
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -36,6 +37,7 @@ const AdminSearchStudent = () => {
     try {
       const response = await axios.post('http://localhost:5000/admin/get-student-location', { className: student.class, batch: student.batch });
       setLocation(response.data.location);
+      setTime(response.data.time);
       setSelectedStudent(student);
     } catch (error) {
       console.error('Error fetching student data:', error);
@@ -79,9 +81,9 @@ const AdminSearchStudent = () => {
               {selectedStudent.name}
             </h2>
             <img
-              src={selectedStudent.photo}
+              src={selectedStudent.profileLink || "https://via.placeholder.com/150"}
               alt={selectedStudent.name}
-              className="w-24 h-24 rounded-full mx-auto mb-4"
+              className="w-48 h-48 rounded-full mx-auto mb-4"
             />
             <ul className="text-lg mb-4">
               <li><strong>Enrollment:</strong> {selectedStudent.enrollment}</li>
@@ -94,7 +96,7 @@ const AdminSearchStudent = () => {
               <li><strong>Personal Email:</strong> {selectedStudent.email}</li>
               <li><strong>Class:</strong> {selectedStudent.class}</li>
               <li><strong>Batch:</strong> {selectedStudent.batch}</li>
-              <li><strong>Location:</strong> {location}</li>
+              <li><strong>Location:</strong> {location} ({time})</li>
             </ul>
             <button
               onClick={() => setSelectedStudent(null)}

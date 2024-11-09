@@ -1,94 +1,238 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Timetable = () => {
-  const [times, setTimes] = useState([]);
-  const [timetable, setTimetable] = useState(null);
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const [timetableData, setTimetableData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    getTimes();
-    fetchTimetable();
+    fetchTimetableData();
   }, []);
 
-  const getTimes = async () => {
-    // Fetching times
-    const response = await axios.get('http://localhost:5000/admin/gettimes', {
-      params: {
-        academicYear: '2024-2025',
-        semester: '7',
-      },
-    });
-    setTimes(response.data.times);
-    console.log(times);
-  };
+  const fetchTimetableData = async () => {
+    window.scrollTo(0, 0);
+    setLoading(true);
+    setError(null);
 
-  const fetchTimetable = async () => {
-    const response = await axios.get('http://localhost:5000/get-timetable');
-    console.log(response.data.timetable);
-    setTimetable(response.data.timetable);
-  };
-
-  // Helper function to create time ranges from the times array
-  const createTimeRanges = () => {
-    let ranges = [];
-    for (let i = 0; i < times.length - 1; i++) {
-      ranges.push(`${times[i]} to ${times[i + 1]}`);
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const response = await axios.get("http://localhost:5000/getStudentTimetable", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTimetableData(response.data.timetable);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error fetching timetable:", error);
+      setError("Failed to load the timetable data");
+    } finally {
+      setLoading(false);
     }
-    return ranges;
   };
 
-  const timeRanges = createTimeRanges(); // Array of time ranges like '8:30 AM to 9:15 AM'
+  const fetchTimetableDataForDay = async (day) => {
+    window.scrollTo(0, 0);
+    setLoading(true);
+    setError(null);
+    setSelectedTime(""); // Clear time when a new day is selected
 
-  // Helper function to check if there is an entry for a given day and time
-  const getScheduleForDayAndTime = (day, range) => {
-    if (timetable && timetable.weeklyTimetable[day]) {
-      const schedule = timetable.weeklyTimetable[day].find((entry) => entry.time === range);
-      return schedule;
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const response = await axios.get(`http://localhost:5000/getStudentTimetableBasedOnDay?day=${day}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTimetableData(response.data.timetable);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error fetching timetable for selected day:", error);
+      setError("Failed to load the timetable data");
+    } finally {
+      setLoading(false);
     }
-    return null;
+  };
+
+  const fetchTimetableDataForTime = async (time) => {
+    if (!selectedDay) return; // Ensure a day is selected before fetching time-based data
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const response = await axios.get(`http://localhost:5000/getStudentTimetableBasedOnTime?day=${selectedDay}&time=${time}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTimetableData(response.data.timetable);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error fetching timetable for selected time:", error);
+      setError("No class found at the selected time.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDayChange = (event) => {
+    const day = event.target.value;
+    setSelectedDay(day);
+    fetchTimetableDataForDay(day);
+  };
+
+  const handleTimeChange = (event) => {
+    const time = event.target.value;
+    setSelectedTime(time);
+    fetchTimetableDataForTime(time);
+  };
+
+  const getCellClass = (cellContent) => {
+    if (cellContent.includes("Break")) {
+      return { backgroundColor: "#CCCCCC" };
+    } else if (cellContent.includes("No Teaching Load")) {
+      return { backgroundColor: "#D9EAD3" };
+    } else if (cellContent.includes("day") || cellContent.includes("Day")) {
+      return { backgroundColor: "#00FF00" };
+    } else if (cellContent.includes("to")) {
+      return { backgroundColor: "#00FF00" };
+    }
+    return { backgroundColor: "#FFFFFF" };
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center text-[#010562]">Timetable</h1>
-      <div className="overflow-x-auto">
-        <table className="table-auto border-collapse border border-gray-400 w-full">
-          <thead>
-            <tr>
-              <th className="border border-gray-400 p-2">Time</th>
-              {daysOfWeek.map((day, index) => (
-                <th key={index} className="border border-gray-400 p-2">{day}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {timeRanges.map((range, index) => (
-              <tr key={index}>
-                <td className="border border-gray-400 p-2">{range}</td>
-                {daysOfWeek.map((day, dayIndex) => {
-                  const schedule = getScheduleForDayAndTime(day, range);
+      <h1 className="text-3xl font-bold mt-20 text-center text-[#010562]">
+        Timetable
+      </h1>
+
+      {loading && (
+        <div className="text-center mt-6 text-lg text-blue-600">
+          Loading timetable...
+        </div>
+      )}
+
+      {error && <div className="text-center text-red-600 mt-6">{error}</div>}
+
+      {timetableData && (
+        <>
+          <div className="mt-4">
+            <label htmlFor="daySelect" className="font-medium mr-2">
+              Select Day:
+            </label>
+            <select
+              id="daySelect"
+              value={selectedDay}
+              onChange={handleDayChange}
+              className="p-2 border border-gray-300 rounded"
+            >
+              <option value="" disabled>
+                Select Day
+              </option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+            </select>
+          </div>
+
+          {selectedDay && (
+            <div className="mt-4">
+              <label htmlFor="timeSelect" className="font-medium mr-2">
+                Select Time:
+              </label>
+              <input
+                type="time"
+                id="timeSelect"
+                value={selectedTime}
+                onChange={handleTimeChange}
+                className="p-2 border border-gray-300 rounded"
+              />
+            </div>
+          )}
+
+          <div className="mt-8 max-w-full overflow-x-auto border border-gray-300 rounded-lg shadow-md">
+            <table className="min-w-full bg-white border-2 border-black shadow-md rounded-lg">
+              <tbody>
+                {timetableData.map((row, rowIndex) => {
                   return (
-                    <td key={dayIndex} className="border border-gray-400 p-2">
-                      {schedule ? (
-                        <div>
-                          {schedule.subject && <div><strong>Subject:</strong> {schedule.subject}</div>}
-                          {schedule.type && <div><strong>Type:</strong> {schedule.type}</div>}
-                          {schedule.faculty && <div><strong>Faculty:</strong> {schedule.faculty}</div>}
-                          {schedule.location && <div><strong>Location:</strong> {schedule.location}</div>}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
-                    </td>
+                    <tr key={rowIndex} className="hover:bg-gray-100">
+                      {row.map((cell, cellIndex) => {
+                        const shouldRowspan = cell.trim().endsWith("2");
+                        var isRowspanCell =
+                          rowIndex > 0 &&
+                          timetableData[rowIndex - 1][cellIndex]
+                            .trim()
+                            .endsWith("2");
+                        if (isRowspanCell) {
+                          isRowspanCell =
+                            timetableData[rowIndex - 1][cellIndex] ===
+                            timetableData[rowIndex][cellIndex];
+                        }
+
+                        const modifiedCell = cell.trim().endsWith("1")
+                          ? cell.trim().slice(0, -1)
+                          : cell.trim().endsWith("2")
+                          ? cell.trim().slice(0, -1)
+                          : cell.trim();
+
+                        if (shouldRowspan && !isRowspanCell) {
+                          return (
+                            <td
+                              key={cellIndex}
+                              rowSpan={2}
+                              className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
+                              style={{
+                                verticalAlign: "middle",
+                                ...(getCellClass(cell) || {}),
+                              }}
+                            >
+                              <pre>{modifiedCell}</pre>
+                            </td>
+                          );
+                        }
+
+                        if (isRowspanCell) {
+                          return null;
+                        }
+
+                        return (
+                          <td
+                            key={cellIndex}
+                            className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
+                            style={{
+                              verticalAlign: "middle",
+                              ...(getCellClass(cell) || {}),
+                            }}
+                          >
+                            <pre>{modifiedCell}</pre>
+                          </td>
+                        );
+                      })}
+                    </tr>
                   );
                 })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </div>
   );
 };

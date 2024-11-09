@@ -82,6 +82,14 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
+                                to="/admin/view-shift"
+                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
+                            >
+                                View Shift
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
                                 to="/admin/import-google-sheets"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >

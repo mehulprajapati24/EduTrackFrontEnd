@@ -176,36 +176,65 @@ const SelectClassOrFaculty = () => {
 
           {/* Timetable Display */}
           {!selectedTime && selectedTimetable && (
-            <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">Timetable Data</h2>
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border-2 border-black shadow-md rounded-lg">
-                  <tbody>
-                    {timetableData.map((row, rowIndex) => (
-                      <tr key={rowIndex} className="hover:bg-gray-100">
-                        {row.map((cell, cellIndex) => {
-                          let modifiedCell = cell.split('\n').filter(line => {
-                            const trimmedLine = line.trim();
-                            return trimmedLine !== "1" && trimmedLine !== "2"; // Filter out "1" and "2"
-                          }).join('\n');
+  <div className="mt-8">
+    <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">Timetable Data</h2>
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border-2 border-black shadow-md rounded-lg">
+        <tbody>
+        {timetableData.map((row, rowIndex) => {
+  return (
+    <tr key={rowIndex} className="hover:bg-gray-100">
+      {row.map((cell, cellIndex) => {
+        // Check if the cell contains a '2' in the last position (indicating it should span two rows)
+        const shouldRowspan = cell.trim().endsWith('2');
+        var isRowspanCell = (rowIndex > 0 && timetableData[rowIndex - 1][cellIndex].trim().endsWith('2')); // Skip if the previous cell is a rowspan
+        if(isRowspanCell){
+          isRowspanCell = timetableData[rowIndex - 1][cellIndex] == timetableData[rowIndex][cellIndex];
+        }
 
-                          return (
-                          <td
-                            key={cellIndex}
-                            className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
-                            style={{ verticalAlign: 'middle', ...(getCellClass(cell) || {}) }} // Center vertically
-                          >
-                            <pre>{modifiedCell}</pre>
-                          </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+        const modifiedCell = cell.trim().endsWith('1') ? cell.trim().slice(0, -1) : 
+                             cell.trim().endsWith('2') ? cell.trim().slice(0, -1) : 
+                             cell.trim();
+
+        // If it's a rowspan cell, skip rendering it and apply rowspan
+        if (shouldRowspan && !isRowspanCell) {
+          return (
+            <td
+              key={cellIndex}
+              rowSpan={2} // Set rowspan to 2
+              className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
+              style={{ verticalAlign: 'middle', ...(getCellClass(cell) || {}) }} // Center vertically
+            >
+              <pre>{modifiedCell}</pre>
+            </td>
+          );
+        }
+
+        // Return an empty cell if the above cell is a rowspan
+        if (isRowspanCell) {
+          return null;
+        }
+
+        return (
+          <td
+            key={cellIndex}
+            className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
+            style={{ verticalAlign: 'middle', ...(getCellClass(cell) || {}) }} // Center vertically
+          >
+            <pre>{modifiedCell}</pre>
+          </td>
+        );
+      })}
+    </tr>
+  );
+})}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
 
         {timeWiseTimetableData && (
           <div className="mt-8">
@@ -227,16 +256,20 @@ const SelectClassOrFaculty = () => {
                   <tr className="hover:bg-gray-100">
                   <td style={{backgroundColor: '#00FF00', verticalAlign: 'middle'}} className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}><pre>{timeWiseTimetableData[0]}</pre></td>
 
-                  {timeWiseTimetableData.slice(1).map((row, index) => (
-                    <>
+                  {timeWiseTimetableData.slice(1).map((row, index) => {
+                    const modifiedCell = row.trim().endsWith('1') ? row.trim().slice(0, -1) : 
+                    row.trim().endsWith('2') ? row.trim().slice(0, -1) : 
+                    row.trim();
+
+                    return ( <>
                       <td
                       className={`p-4 border border-black text-gray-700 whitespace-nowrap text-center`}
                       style={{ verticalAlign: 'middle', ...(getCellClass(row) || {}) }} // Center vertically
                       >
-                      <pre>{row}</pre>
+                      <pre>{modifiedCell}</pre>
                       </td>
-                    </>
-                  ))}
+                    </> );
+                  })}
                   </tr>
                   </tbody>
                 </table>

@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const DesktopNav = ({ menuItems }) => {
+const DesktopNav = ({ menuItems, profileInitial }) => {
   const [showOptions, setShowOptions] = useState(false);
-  const profileInitial = "M";
+  const navigate = useNavigate(); // Use React Router's navigate function
 
   const toggleOptions = () => {
     setShowOptions(prev => !prev);
   };
 
   const handleOptionClick = () => {
+    navigate('/profile');
     setShowOptions(false); // Hide options when one is clicked
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login'); // Use navigate for client-side routing
   };
 
   return (
@@ -23,7 +29,7 @@ const DesktopNav = ({ menuItems }) => {
         <ul className="flex space-x-8">
           {menuItems.map((item, index) => (
             <li key={index} className="capitalize text-white hover:text-[#F82249] cursor-pointer transition-colors duration-500 ease-in-out">
-              <Link to={item === "home" ? "/" : `${item.toLowerCase()}`} className='font-medium capitalize text-secondary'>{item}</Link>
+              <Link to={item === "home" ? "/" : `/${item.toLowerCase()}`} className='font-medium capitalize text-secondary'>{item}</Link>
             </li>
           ))}
         </ul>
@@ -41,13 +47,15 @@ const DesktopNav = ({ menuItems }) => {
               <ul className="py-1">
                 <li
                   className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => { handleOptionClick(); /* Navigate to Profile */ }}
+                  onClick={handleOptionClick}
                 >
-                  Profile
+                  <Link to="/profile" onClick={handleOptionClick}>
+                    Profile
+                  </Link>
                 </li>
                 <li
                   className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => { handleOptionClick(); /* Implement Logout */ }}
+                  onClick={handleLogout} // Use handleLogout here
                 >
                   Logout
                 </li>

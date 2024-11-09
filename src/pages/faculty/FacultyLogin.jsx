@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Add Axios
 
-const Login = () => {
+const FacultyLogin = () => {
     const [enrollmentNumber, setEnrollmentNumber] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('http://localhost:5000/faculty/login', {
                 enrollmentNumber,
                 password
             });
@@ -23,15 +23,15 @@ const Login = () => {
             else{
                 if(response.data.requirePasswordChange){
                     localStorage.setItem('accessToken', response.data.accessToken);
-                    navigate('/require', { state: { requireChange: true } });
+                    navigate('/faculty/require', { state: { requireChange: true } });
                 }else{
                     localStorage.setItem('accessToken', response.data.accessToken);
-                    navigate('/');
+                    navigate('/faculty');
                 }
             }
         } catch (error) {
             // Handle error response
-            setError('Invalid enrollment number or password.');
+            setError('Invalid employee ID or password.');
         }
     };
 
@@ -58,7 +58,7 @@ const Login = () => {
                                 value={enrollmentNumber}
                                 onChange={(e) => setEnrollmentNumber(e.target.value)}
                                 className="block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Enrollment Number"
+                                placeholder="Employee ID"
                             />
                         </div>
                         <div>
@@ -88,7 +88,7 @@ const Login = () => {
                     <div className="flex items-center justify-between">
                         <div className="text-sm">
                             <Link
-                                to="/forgot-password"
+                                to="/faculty/forgot-password"
                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                             >
                                 Forgot Password?
@@ -110,4 +110,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default FacultyLogin;

@@ -4,7 +4,7 @@ import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
 import axios from 'axios';
 
-const RequirePasswordChange = () => {
+const FacultyRequiredPasswordChange = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -51,7 +51,7 @@ const RequirePasswordChange = () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
           const response = await axios.post(
-            'http://localhost:5000/require',
+            'http://localhost:5000/faculty/require',
             {
               password,  // data being sent
               image
@@ -62,10 +62,10 @@ const RequirePasswordChange = () => {
               }
             }
           );
-          navigate('/');
+          navigate('/faculty');
           // Handle success, maybe redirect the user or show a success message
         } else {
-          navigate("/login");  // redirect to login if no token is found
+          navigate("/faculty/login");  // redirect to login if no token is found
         }
       } catch (error) {
         // Set an error message for UI, capture the server response or message
@@ -152,4 +152,4 @@ const RequirePasswordChange = () => {
   );
 };
 
-export default RequirePasswordChange;
+export default FacultyRequiredPasswordChange;

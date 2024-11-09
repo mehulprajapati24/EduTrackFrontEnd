@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const MobileNav = ({ menuItems, onClose, onOpen, hideLeft }) => {
+const MobileNav = ({ menuItems, onClose, onOpen, hideLeft, profileInitial }) => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // State to manage profile menu visibility
-  const profileInitial = "M"; // Demo letter for the profile
 
   const handleMenuItemClick = () => {
     onClose(); // Close the menu when a menu item is clicked
@@ -38,7 +39,10 @@ const MobileNav = ({ menuItems, onClose, onOpen, hideLeft }) => {
                   <li className="p-2 hover:bg-gray-700 cursor-pointer">
                     <Link to="/profile" className='font-medium capitalize text-secondary' onClick={handleMenuItemClick}>Profile</Link>
                   </li>
-                  <li className="p-2 hover:bg-gray-700 cursor-pointer">
+                  <li className="p-2 hover:bg-gray-700 cursor-pointer" onClick={() => {
+                    localStorage.removeItem('accessToken');
+                    window.location.href = '/login';
+                  }}>
                     <Link to="/logout" className='font-medium capitalize text-secondary' onClick={handleMenuItemClick}>Logout</Link>
                   </li>
                 </ul>

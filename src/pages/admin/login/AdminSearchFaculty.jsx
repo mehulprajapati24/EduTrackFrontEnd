@@ -85,9 +85,9 @@ const AdminSearchFaculty = () => {
               {selectedFaculty.name}
             </h2>
             <img
-              src={selectedFaculty.photo}
+              src={selectedFaculty.profileLink || "https://via.placeholder.com/150"}
               alt={selectedFaculty.name}
-              className="w-24 h-24 rounded-full mx-auto mb-4"
+              className="w-48 h-48 rounded-full mx-auto mb-4"
             />
             <ul className="text-lg mb-4">
               <li><strong>Enrollment:</strong> {selectedFaculty.enrollment}</li> {/* Adjusted to show employee ID */}

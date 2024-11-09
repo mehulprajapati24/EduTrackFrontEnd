@@ -5,7 +5,7 @@ import { useNavigate , useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ChangePassword = () => {
+const FacultyChangePassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ const ChangePassword = () => {
 
   useEffect(()=>{
     if(!email){
-      navigate("/login");
+      navigate("/faculty/login");
     }
   })
 
@@ -46,7 +46,7 @@ const ChangePassword = () => {
 
     try {
       // Replace with your API endpoint and necessary request body
-      const response = await axios.post("http://localhost:5000/change-password", { email, password });
+      const response = await axios.post("http://localhost:5000/faculty/change-password", { email, password });
 
       if (response.data.error) {
         // Handle error response
@@ -60,7 +60,7 @@ const ChangePassword = () => {
         });
 
         setTimeout(() => {
-          navigate('/login');
+          navigate('/faculty/login');
         }, 1400);
       }
     } catch (error) {
@@ -132,4 +132,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default FacultyChangePassword;

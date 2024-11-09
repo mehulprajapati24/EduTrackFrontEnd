@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-const OtpLogin = () => {
+const FacultyOtpLogin = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -11,11 +11,11 @@ const OtpLogin = () => {
 
   // Navigate to login if email is not provided
   if (!email) {
-    navigate("/login");
+    navigate("/faculty/login");
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("http://localhost:5000/otp", { email });
+    const response = await axios.post("http://localhost:5000/faculty/otp", { email });
     setError('');
   };
 
@@ -23,12 +23,12 @@ const OtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/forgot-password/otp', { email, otp });
+      const response = await axios.post('http://localhost:5000/faculty/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);
       } else {
-        navigate('/reset-password', {
+        navigate('/faculty/reset-password', {
             state : {
                 email
             }
@@ -88,4 +88,4 @@ const OtpLogin = () => {
   );
 };
 
-export default OtpLogin;
+export default FacultyOtpLogin;
