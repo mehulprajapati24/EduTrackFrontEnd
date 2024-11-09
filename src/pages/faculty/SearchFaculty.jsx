@@ -11,7 +11,7 @@ const SearchFaculty = () => {
   useEffect(() => {
     const fetchFaculties = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
+        const response = await axios.get('https://edu-track-backend-ten.vercel.app/admin/get-faculty-data'); // Adjusted API endpoint
         setFaculties(response.data.faculties);
       } catch (error) {
         console.error('Error fetching faculty data:', error);
@@ -39,7 +39,7 @@ const SearchFaculty = () => {
     
       const shortName = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
     
-      const response = await axios.post('http://localhost:5000/admin/get-faculty-location', { facultyName: shortName }); // Adjusted payload
+      const response = await axios.post('https://edu-track-backend-ten.vercel.app/admin/get-faculty-location', { facultyName: shortName }); // Adjusted payload
       setLocation(response.data.location);
       setTime(response.data.time);
       setSelectedFaculty(faculty);
@@ -56,7 +56,7 @@ const SearchFaculty = () => {
       <div className="mb-6 flex justify-center">
         <input
           type="text"
-          placeholder="Search by name or enrollment"
+          placeholder="Search by name or employee Id"
           className="p-3 w-full sm:w-96 rounded-lg shadow-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchQuery}
           onChange={handleSearchChange}
@@ -90,7 +90,7 @@ const SearchFaculty = () => {
               className="w-48 h-48 rounded-full mx-auto mb-4"
             />
             <ul className="text-lg mb-4">
-              <li><strong>Enrollment:</strong> {selectedFaculty.enrollment}</li> {/* Adjusted to show employee ID */}
+              <li><strong>Employee ID:</strong> {selectedFaculty.enrollment}</li> {/* Adjusted to show employee ID */}
               <li><strong>Branch:</strong> {selectedFaculty.branch}</li>
               <li><strong>Phone:</strong> {selectedFaculty.phone}</li>
               <li><strong>GNU Email:</strong> {selectedFaculty.gnuemail}</li>

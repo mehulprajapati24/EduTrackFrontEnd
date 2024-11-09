@@ -12,7 +12,7 @@ const FacultyDashboard = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("http://localhost:5000/faculty/getProfile", {
+          const response = await axios.get("https://edu-track-backend-ten.vercel.app/faculty/getProfile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

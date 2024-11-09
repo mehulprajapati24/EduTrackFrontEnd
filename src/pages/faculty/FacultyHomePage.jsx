@@ -19,7 +19,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getProfile", {
+        const response = await axios.get("https://edu-track-backend-ten.vercel.app/faculty/getProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('http://localhost:5000/faculty/getSchedule', {
+        const response = await axios.get('https://edu-track-backend-ten.vercel.app/faculty/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,7 +55,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token && startTime) {
-        await axios.post('http://localhost:5000/faculty/startShift', {
+        await axios.post('https://edu-track-backend-ten.vercel.app/faculty/startShift', {
           startTime,
         }, {
           headers: { Authorization: `Bearer ${token}` },
@@ -75,7 +75,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token && endTime) {
-        const response = await axios.post('http://localhost:5000/faculty/endShift', {
+        const response = await axios.post('https://edu-track-backend-ten.vercel.app/faculty/endShift', {
           endTime,
         }, {
           headers: { Authorization: `Bearer ${token}` },
@@ -95,7 +95,7 @@ const FacultyHomePage = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if(token){
-        const response = await axios.get("http://localhost:5000/faculty/get-fields", {
+        const response = await axios.get("https://edu-track-backend-ten.vercel.app/faculty/get-fields", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
