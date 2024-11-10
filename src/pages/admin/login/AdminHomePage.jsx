@@ -11,7 +11,7 @@ const AdminHomePage = () => {
   // Fetch room data from server
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-rjl9.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
+      const response = await axios.get('http://localhost:5000/admin/get-room-data'); // Adjust API endpoint as needed
       setRooms(response.data.rooms);
       setFilteredRooms(response.data.rooms); // Initially set filtered rooms to all rooms
     } catch (error) {
@@ -168,7 +168,7 @@ export default AdminHomePage;
 //   useEffect(() => {
 //     const fetchRooms = async () => {
 //       try {
-//         const response = await axios.get('https://edutrackbackend-rjl9.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
+//         const response = await axios.get('http://localhost:5000/admin/get-room-data'); // Adjust API endpoint as needed
 //         setRooms(response.data.rooms);
 //         setFilteredRooms(response.data.rooms); // Initially set filtered rooms to all rooms
 //       } catch (error) {

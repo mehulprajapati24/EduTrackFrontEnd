@@ -32,7 +32,7 @@ const ManageTimetable = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("https://edutrackbackend-rjl9.onrender.com/admin/validate", {
+          const response = await axios.get("http://localhost:5000/admin/validate", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -97,7 +97,7 @@ const ManageTimetable = () => {
     console.log(academicYear, semester, selectedClass, weeklyTimetable);
 
     try {
-      const response = await axios.post("https://edutrackbackend-rjl9.onrender.com/admin/create-timetable", {
+      const response = await axios.post("http://localhost:5000/admin/create-timetable", {
         academicYear,
         semester,
         selectedClass,
@@ -126,7 +126,7 @@ const ManageTimetable = () => {
   };
 
   const getClasses = async () => {
-    const response = await axios.get('https://edutrackbackend-rjl9.onrender.com/admin/getclasses', {
+    const response = await axios.get('http://localhost:5000/admin/getclasses', {
       params: {
         academicYear,
         semester,
@@ -138,7 +138,7 @@ const ManageTimetable = () => {
   };
 
   const getBatches = async () => {
-    const response = await axios.get('https://edutrackbackend-rjl9.onrender.com/admin/getbatches', {
+    const response = await axios.get('http://localhost:5000/admin/getbatches', {
       params: {
         academicYear,
         semester,
@@ -150,7 +150,7 @@ const ManageTimetable = () => {
   };
 
   const getTimes = async () => {
-    const response = await axios.get('https://edutrackbackend-rjl9.onrender.com/admin/gettimes', {
+    const response = await axios.get('http://localhost:5000/admin/gettimes', {
       params: {
         academicYear,
         semester,
