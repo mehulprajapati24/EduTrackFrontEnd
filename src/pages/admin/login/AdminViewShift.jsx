@@ -8,7 +8,7 @@ const AdminViewShift = () => {
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/admin/viewShifts");
+        const response = await axios.get("https://edutrackbackend-rjl9.onrender.com/admin/viewShifts");
         setShifts(response.data.shift);
       } catch (error) {
         console.error("Error fetching shift data:", error);

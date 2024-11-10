@@ -23,7 +23,7 @@ const AdminLogin = () => {
           }
 
           try{
-            const response = await axios.post("http://localhost:5000/admin/login", {
+            const response = await axios.post("https://edutrackbackend-rjl9.onrender.com/admin/login", {
                 email,
                 password
               });
