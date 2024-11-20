@@ -18,6 +18,22 @@ const FacultySidebar = () => {
             </li>
             <li>
               <Link
+                to="/faculty/check-class-availability"
+                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
+              >
+                Check Class/Lab Availability
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/faculty/view-class-location"
+                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
+              >
+                View Class Location
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/faculty/search-faculty"
                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
               >

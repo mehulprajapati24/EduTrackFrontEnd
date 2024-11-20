@@ -42,6 +42,39 @@ import FacultyForgotPassword from './pages/faculty/FacultyForgotPassword.jsx'
 import FacultyOtpLogin from './pages/faculty/FacultyOtpLogin.jsx'
 import FacultyChangePassword from './pages/faculty/FacultyChangePassword.jsx'
 import AdminViewShift from './pages/admin/login/AdminViewShift.jsx'
+import AcademicYear from './pages/admin/login/AcademicYear.jsx'
+import SelectAcademicYearSemester from './pages/admin/login/SelectAcademicYearSemester.jsx'
+import AddAdmin from './pages/admin/login/AddAdmin.jsx'
+import FacultyCheckClass from './pages/faculty/FacultyCheckClass.jsx'
+
+import PrincipalAcademicYear from './pages/principal/PrincipalAcademicYear.jsx'
+import PrincipalChangePassword from './pages/principal/PrincipalChangePassword.jsx'
+import PrincipalChatbot from './pages/principal/PrincipalChatbot.jsx'
+import PrincipalDashboard from './pages/principal/PrincipalDashboard.jsx'
+import PrincipalErrorPage from './pages/principal/PrincipalErrorPage.jsx'
+import PrincipalForgotPassword from './pages/principal/PrincipalForgotPassword.jsx'
+import PrincipalHomePage from './pages/principal/PrincipalHomePage.jsx'
+import PrincipalImportGoogleSheets from './pages/principal/PrincipalImportGoogleSheets.jsx'
+import PrincipalLogin from './pages/principal/PrincipalLogin.jsx'
+import PrincipalOtpLogin from './pages/principal/PrincipalOtpLogin.jsx'
+import PrincipalSearchFaculty from './pages/principal/PrincipalSearchFaculty.jsx'
+import PrincipalSearchStudent from './pages/principal/PrincipalSearchStudent.jsx'
+import PrincipalSelectAcademicYearSemester from './pages/principal/PrincipalSelectAcademicYearSemester.jsx'
+import PrincipalSidebar from './pages/principal/PrincipalSidebar.jsx'
+import PrincipalViewShift from './pages/principal/PrincipalViewShift.jsx'
+import PrincipalViewTimetable from './pages/principal/PrincipalViewTimetable.jsx'
+import PrincipalViewStudents from './pages/principal/PrincipalViewStudents.jsx'
+import AddPrincipal from './pages/admin/login/AddPrincipal.jsx'
+import AdminViewClassLocation from './pages/admin/login/AdminViewClassLocation.jsx'
+import PrincipalViewClassLocation from './pages/principal/PrincipalViewClassLocation.jsx'
+import FacultyViewClassLocation from './pages/faculty/FacultyViewClassLocation.jsx'
+import AddStudent from './pages/admin/login/AddStudent.jsx'
+import UpdateStudent from './pages/admin/login/UpdateStudent.jsx'
+import AddFaculty from './pages/admin/login/AddFaculty.jsx'
+import UpdateFaculty from './pages/admin/login/UpdateFaculty.jsx'
+import AddTimetable from './pages/admin/login/AddTimetable.jsx'
+import UpdateTimetable from './pages/admin/login/UpdateTimetable.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -175,13 +208,128 @@ const router = createBrowserRouter([
         element: <AdminViewTimetable/>
       },
       {
+        path: "/admin/view-class-location",
+        element: <AdminViewClassLocation/>
+      },
+      {
         path: "/admin/view-shift",
         element: <AdminViewShift/>
+      },
+      {
+        path: "/admin/add-academic-year",
+        element: <AcademicYear/>
+      },
+      {
+        path: "/admin/select-academic-year",
+        element: <SelectAcademicYearSemester/>
+      },
+      {
+        path: "/admin/manage-students",
+        element: <ManageStudents/>
+      },
+      {
+        path: "/admin/manage-faculties",
+        element: <ManageFaculties/>
+      },
+      {
+        path: "/admin/manage-timetables",
+        element: <ManageTimetable/>
+      },
+      {
+        path: "/admin/add-timetable",
+        element: <AddTimetable/>
+      },
+      {
+        path: "/admin/add-admin",
+        element: <AddAdmin/>
+      },
+      {
+        path: "/admin/add-student",
+        element: <AddStudent/>
+      },
+      {
+        path: "/admin/add-faculty",
+        element: <AddFaculty/>
+      },
+      {
+        path: "/admin/update-student",
+        element: <UpdateStudent/>
+      },
+      {
+        path: "/admin/update-faculty",
+        element: <UpdateFaculty/>
+      },
+      {
+        path: "/admin/update-timetable",
+        element: <UpdateTimetable/>
+      },
+      {
+        path: "/admin/add-principal",
+        element: <AddPrincipal/>
       },
       {
         path: "/admin/import-google-sheets",
         element: <ImportGoogleSheets/>
       }
+    ]
+  },
+  {
+    path: "principal/login",
+    element: <PrincipalLogin/>
+  },
+  {
+    path: "principal/forgot-password",
+    element: <PrincipalForgotPassword/>
+  },
+  {
+    path: "principal/otp",
+    element: <PrincipalOtpLogin/>
+  },
+  {
+    path: "principal/reset-password",
+    element: <PrincipalChangePassword/>
+  },
+  {
+    path: "/principal",
+    element: <PrincipalDashboard/>,
+    errorElement: <PrincipalErrorPage/>,
+    children: [
+      {
+        path: "/principal",
+        element: <PrincipalHomePage/>
+      },
+      {
+        path: "/principal/search-faculty",
+        element: <PrincipalSearchFaculty/>
+      },
+      {
+        path: "/principal/search-student",
+        element: <PrincipalSearchStudent/>
+      },
+      {
+        path: "/principal/view-timetable",
+        element: <PrincipalViewTimetable/>
+      },
+      {
+        path: "/principal/view-class-location",
+        element: <PrincipalViewClassLocation/>
+      },
+      {
+        path: "/principal/view-shift",
+        element: <PrincipalViewShift/>
+      },
+      // {
+      //   path: "/principal/add-academic-year",
+      //   element: <PrincipalAcademicYear/>
+      // },
+      // {
+      //   path: "/principal/select-academic-year",
+      //   element: <PrincipalSelectAcademicYearSemester/>
+      // },
+      // {
+      //   path: "/principal/import-google-sheets",
+      //   element: <PrincipalImportGoogleSheets/>
+      // }
     ]
   },
   {
@@ -193,12 +341,20 @@ const router = createBrowserRouter([
         element: <FacultyHomePage/>
       },
       {
+        path: "/faculty/check-class-availability",
+        element: <FacultyCheckClass/>
+      },
+      {
         path: "/faculty/search-faculty",
         element: <SearchFaculty/>
       },
       {
         path: "/faculty/search-student",
         element: <SearchStudent/>
+      },
+      {
+        path: "/faculty/view-class-location",
+        element: <FacultyViewClassLocation/>
       },
       {
         path: "/faculty/timetable",

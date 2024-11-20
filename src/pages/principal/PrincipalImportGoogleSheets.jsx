@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ImportGoogleSheets = () => {
+const PrincipalImportGoogleSheets = () => {
   const [sheetLink, setSheetLink] = useState('');
   const [academicYear, setAcademicYear] = useState('');
   const [semester, setSemester] = useState('Odd');
@@ -150,4 +150,4 @@ const ImportGoogleSheets = () => {
   );
 };
 
-export default ImportGoogleSheets;
+export default PrincipalImportGoogleSheets;

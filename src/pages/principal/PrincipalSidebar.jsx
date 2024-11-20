@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
+const PrincipalSidebar = () => {
     return (
         <div className="w-64 h-screen bg-gray-900 text-white fixed overflow-y-auto">
             <div className="p-6">
-                <h2 className="text-2xl font-bold mb-8">Admin Panel</h2>
+                <h2 className="text-2xl font-bold mb-8">Principal Panel</h2>
                 <nav>
                     <ul className="space-y-4">
                         <li>
                             <Link
-                                to="/admin"
+                                to="/principal"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Dashboard
@@ -42,7 +42,7 @@ const Sidebar = () => {
                         </li> */}
                         <li>
                             <Link
-                                to="/admin/search-faculty"
+                                to="/principal/search-faculty"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Search Faculty
@@ -50,7 +50,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/admin/search-student"
+                                to="/principal/search-student"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Search Student
@@ -74,7 +74,7 @@ const Sidebar = () => {
                         </li> */}
                         <li>
                             <Link
-                                to="/admin/view-timetable"
+                                to="/principal/view-timetable"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 View Timetable
@@ -82,7 +82,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/admin/view-class-location"
+                                to="/principal/view-class-location"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 View Class Location
@@ -90,15 +90,15 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/admin/view-shift"
+                                to="/principal/view-shift"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 View Shift
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link
-                                to="/admin/add-academic-year"
+                                to="/principal/add-academic-year"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Add Academic Year And Sem
@@ -106,7 +106,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/admin/select-academic-year"
+                                to="/principal/select-academic-year"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Select Academic Year And Sem
@@ -114,58 +114,18 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/admin/import-google-sheets"
+                                to="/principal/import-google-sheets"
                                 className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Import Data from Google Sheets
                             </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/admin/manage-students"
-                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
-                            >
-                                Manage Students
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/admin/manage-faculties"
-                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
-                            >
-                                Manage Faculties
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/admin/manage-timetables"
-                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
-                            >
-                                Manage Timetables
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/admin/add-admin"
-                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
-                            >
-                                Add Admin
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/admin/add-principal"
-                                className="block py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
-                            >
-                                Add Principal
-                            </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <button
                                 className="w-full text-left py-2.5 px-4 rounded-lg hover:bg-gray-700 transition"
                                 onClick={() => {
                                     localStorage.removeItem('accessToken');
-                                    window.location.href = '/admin/login';
+                                    window.location.href = '/principal/login';
                                 }}
                             >
                                 Logout
@@ -178,4 +138,4 @@ const Sidebar = () => {
     );
 }
 
-export default Sidebar;
+export default PrincipalSidebar;

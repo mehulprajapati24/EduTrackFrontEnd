@@ -25,6 +25,10 @@ const StudentChatbot = () => {
           },
         });
         setPersonalDetails(response.data.profile);
+        setMessages(prevMessages => [
+          ...prevMessages,
+          { sender: 'AI Assistant', text:`Hello ${response.data.profile.name}! How can I help you?` }
+        ]);
       } else {
         navigate("/login");
       }

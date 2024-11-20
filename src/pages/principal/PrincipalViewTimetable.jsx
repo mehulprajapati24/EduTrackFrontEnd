@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const SelectClassOrFaculty = () => {
+const PrincipalViewTimetable = () => {
   const [selectedTimetable, setSelectedTimetable] = useState('');
   const [options, setOptions] = useState([]);
   const [timetableData, setTimetableData] = useState(null);
@@ -336,7 +336,7 @@ const SelectClassOrFaculty = () => {
   );
 };
 
-export default SelectClassOrFaculty;
+export default PrincipalViewTimetable;
 
 
 

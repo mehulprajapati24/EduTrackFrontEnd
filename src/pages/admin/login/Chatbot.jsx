@@ -6,7 +6,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI("AIzaSyDRHXbqwe9ysTXlIzgQUFtANpkojuwRsh0");
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { sender: 'AI Assistant', text: 'Hello Admin! How can I help you?' }
+  ]);
   const [input, setInput] = useState('');
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
   const [students, setStudents] = useState([]);

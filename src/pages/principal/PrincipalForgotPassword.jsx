@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const AdminForgotPassword = () => {
+const PrincipalForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -19,14 +19,14 @@ const AdminForgotPassword = () => {
       return;
     }
 
-    const response = await axios.post("http://localhost:5000/admin/otp", { email });
+    const response = await axios.post("http://localhost:5000/principal/otp", { email });
 
     if(response.data.error){
       setError(response.data.message);
     }
     else{
     // Simulate success and navigate
-    navigate('/admin/otp', {
+    navigate('/principal/otp', {
       state: {
         email
       }
@@ -82,4 +82,4 @@ const AdminForgotPassword = () => {
   );
 };
 
-export default AdminForgotPassword;
+export default PrincipalForgotPassword;

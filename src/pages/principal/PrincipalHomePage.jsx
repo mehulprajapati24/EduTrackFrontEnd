@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AdminHomePage = () => {
+const PrincipalHomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [rooms, setRooms] = useState([]); // Initialize rooms as an empty array
   const [filteredRooms, setFilteredRooms] = useState([]);
@@ -74,7 +74,7 @@ const AdminHomePage = () => {
 
   return (
     <div className="min-h-screen p-8 bg-gradient-to-r from-blue-200 to-blue-400 rounded">
-      <h1 className="text-3xl font-bold text-center mb-8">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Principal Dashboard</h1>
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -201,7 +201,7 @@ const AdminHomePage = () => {
   );
 };
 
-export default AdminHomePage;
+export default PrincipalHomePage;
 
 
 

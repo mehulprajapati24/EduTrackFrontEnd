@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-const AdminOtpLogin = () => {
+const PrincipalOtpLogin = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -11,11 +11,11 @@ const AdminOtpLogin = () => {
 
   // Navigate to login if email is not provided
   if (!email) {
-    navigate("/admin/login");
+    navigate("/principal/login");
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("http://localhost:5000/admin/otp", { email });
+    const response = await axios.post("http://localhost:5000/principal/otp", { email });
     setError('');
   };
 
@@ -23,12 +23,12 @@ const AdminOtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/forgot-password/otp', { email, otp });
+      const response = await axios.post('http://localhost:5000/principal/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);
       } else {
-        navigate('/admin/reset-password', {
+        navigate('/principal/reset-password', {
             state : {
                 email
             }
@@ -88,4 +88,4 @@ const AdminOtpLogin = () => {
   );
 };
 
-export default AdminOtpLogin;
+export default PrincipalOtpLogin;

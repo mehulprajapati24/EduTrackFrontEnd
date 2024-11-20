@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { useNavigate } from 'react-router-dom';
 
 // Initialize the GoogleGenerativeAI client
 const genAI = new GoogleGenerativeAI("AIzaSyDRHXbqwe9ysTXlIzgQUFtANpkojuwRsh0");
 
-const FacultyChatbot = () => {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [messages, setMessages] = useState([]);
+const PrincipalChatbot = () => {
+  const [messages, setMessages] = useState([
+    { sender: 'AI Assistant', text: 'Hello Principal! How can I help you?' }
+  ]);
   const [input, setInput] = useState('');
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
   const [students, setStudents] = useState([]);
   const [faculties, setFaculties] = useState([]);
-  const [schedules, setSchedule] = useState([]);
-  const [timetableData, setTimetableData] = useState(null);
   const [shifts, setShifts] = useState([]);
-  const [studentWithLocation, setStudentsWithLocation] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [studentWithLocation, setStudentsWithLocation] = useState([]);
 
   const fetchStudents = async () => {
     try {
@@ -39,6 +36,15 @@ const FacultyChatbot = () => {
     }
   };
 
+  const fetchShifts = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/admin/viewShifts");
+      setShifts(response.data.shift);
+    } catch (error) {
+      console.error("Error fetching shift data:", error);
+    }
+  };
+
   const fetchRooms = async () => {
     try {
       const response = await axios.get('http://localhost:5000/admin/get-room-data'); // Adjust API endpoint as needed
@@ -48,108 +54,23 @@ const FacultyChatbot = () => {
     }
   };
 
-  const getSchedule = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        const response = await axios.get('http://localhost:5000/faculty/getSchedule', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setSchedule(response.data.schedule);
-      } else {
-        navigate('/faculty/login');
-      }
-    } catch (error) {
-      console.error('Error fetching schedule data:', error);
-    }
-  };
-
-
-  const fetchTimetableData = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-
-      if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getFacultyTimetable", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        // console.log(response.data.timetable);
-        setTimetableData(response.data.timetable);
-      } else {
-        navigate("/faculty/login");
-      }
-    } catch (error) {
-      console.error("Error fetching timetable:", error);
-    }
-  };
-
-  const getShiftsOfFaculty = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-
-      if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getShiftsOfFaculty", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        // console.log(response.data.shifts);
-        setShifts(response.data.shifts);
-      } else {
-        navigate("/faculty/login");
-      }
-    } catch (error) {
-      console.error("Error fetching shift data:", error);
-    }
-  }
-
   const fetchStudentLocation = async () => {
     try {
       const response = await axios.get('http://localhost:5000/admin/get-students-location'); // Adjust API endpoint as needed
       setStudentsWithLocation(response.data.studentWithLocation);
     } catch (error) {
-      console.error('Error fetching room data:', error);
+      console.error('Error fetching student location data:', error);
     }
   };
 
 
-  const getProfile = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getProfile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setName(response.data.name);
-        setMessages(prevMessages => [
-          ...prevMessages,
-          { sender: 'AI Assistant', text: `Hello ${response.data.name}! How can I help you?` }
-        ]);
-      } else {
-        navigate("/faculty/login");
-      }
-    } catch (error) {
-      console.error("Error fetching faculty:", error);
-    }
-  };
-
- 
 
   useEffect(() => {
     fetchStudents();
     fetchFaculties();
-    getSchedule();
-    fetchTimetableData();
-    getShiftsOfFaculty();
-    fetchStudentLocation();
+    fetchShifts();
     fetchRooms();
-    getProfile();
+    fetchStudentLocation();
   }, []);
 
 
@@ -163,54 +84,33 @@ const FacultyChatbot = () => {
     `${index+1}. Student ${student.name} (enrollment: ${student.enrollment}) is in class ${student.class}, batch ${student.batch}, branch ${student.branch}, currently in ${student.semester}. Their email is ${student.email}, and their GNU email is ${student.gnuemail}. This student is a ${student.hostellercommuter}. Contact number: ${student.phone}, and their parent's phone number is ${student.parentsphone}.`
   ).join("\n");
 
+  // console.log(studentsData);
+
   const facultyData = faculties.map((faculty, index)=> 
     `${index+1}. Faculty ${faculty.name} (employee ID: ${faculty.enrollment}) is in branch ${faculty.branch}, Contact number: ${faculty.phone} and their GNU email is ${faculty.gnuemail}`
   ).join("\n");
-
-  const scheduleData = schedules.map((schedule, index)=>
-    (schedule ? ` if ${index+1} is 1 then this is the information about current class/lab details and if ${index+1} is 2 then this is the information about next class/lab details. Type of class like it is lecture or lab or break or no teaching load: ${schedule.type} and subject is ${schedule.subject} and location is ${schedule.location} and time is ${schedule.time}` : "if ${index+1} is 1 then No current class available and if ${index+1} is 2 then No next class available")
-).join("\n");
-
-const roomData = rooms.map((room, index)=>
-  `${index + 1}. Class or Lab or Room: ${room.location} is ${room.availability} and other information like there are ${room.acs} ac, ${room.chairs} chairs, ${room.benches} benches, ${room.computers} computers, ${room.fans} fans, ${room.tubelights} tubelights and ${room.projectors} projectors.`
-).join("\n");
-
-// console.log(scheduleData);
-
-const shiftData = shifts.map((shift, index) => 
-  `${index + 1}. I have a shift from ${shift.startTime}` + 
-  (shift.endTime ? ` to ${shift.endTime}` : "") + 
-  ` on ${shift.date}.`
-).join("\n");
-
-const studentLocationData = studentWithLocation.map((studentLocation, index)=>
-  `${index + 1}. Student enrollment number: ${studentLocation.enrollment} and whose name is ${studentLocation.name} and current location is ${studentLocation.location}.`
-).join("\n");
-
-
-if(timetableData){
-  var timetablesData = timetableData.map((row, rowIndex) => {
-    if (rowIndex === 0) return ""; // Skip the header row
   
-    const timeSlot = row[0];
-    const dayData = row.slice(1).map((entry, dayIndex) => {
-      const day = timetableData[0][dayIndex + 1];
-      if (entry === "No Teaching Load" || entry === "Break") {
-        return `${day} at ${timeSlot}: ${entry}`;
-      }
-  
-      const [subject, classDetails, faculty, location, load] = entry.split("\r\n");
-      return `${day} at ${timeSlot}: ${subject} and classes or batches:(${classDetails}) taught by ${faculty} in ${location} (${load === '1' ? 'Lecture' : 'Lab'})`;
-    }).join("\n");
-  
-    return `Time Slot: ${timeSlot}\n${dayData}`;
-  }).join("\n\n");
-}
+  const shiftData = shifts.map((shift, index) => 
+    `${index + 1}. Faculty: ${shift.facultyId.name} (Employee ID: ${shift.facultyId.enrollment}) has a shift from ${shift.startTime}` + 
+    (shift.endTime ? ` to ${shift.endTime}` : "") + 
+    ` on ${shift.date}.`
+  ).join("\n");
+
+  const roomData = rooms.map((room, index)=>
+    `${index + 1}. Class or Lab or Room: ${room.location} is ${room.availability} and other information like there are ${room.acs} ac, ${room.chairs} chairs, ${room.benches} benches, ${room.computers} computers, ${room.fans} fans, ${room.tubelights} tubelights and ${room.projectors} projectors.`
+  ).join("\n");
+
+  const studentLocationData = studentWithLocation.map((studentLocation, index)=>
+    `${index + 1}. Student enrollment number: ${studentLocation.enrollment} and whose name is ${studentLocation.name} and current location is ${studentLocation.location}.`
+  ).join("\n");
+
 
   const handleSendMessage = async () => {
     if (input.trim()) {
       // Display user's message
       setMessages([...messages, { sender: 'User', text: input }]);
+      // console.log(input);
+      
 
       const inputData = input;
 
@@ -245,6 +145,7 @@ if(timetableData){
       });
 
       const searchedStudentLocation = responseLocation.data.location;
+      // console.log(searchedStudentLocation);
 
       // Generate the prompt
       // console.log(studentsData);
@@ -252,28 +153,20 @@ if(timetableData){
       // const prompt = `Based on the following information, please answer concisely: Here is some information about students: ${studentsData} and Here is some information about: ${facultyData}. Based on this information give me just direct answer not any explanation, ${input}`;    
 
       const prompt = `
-      I have data about student information, also having student location information, faculty information, weekly timetable information, my all shift information, classes or rooms which are available or occupied at current time and other details. Here’s a summary:
+      I have data about student information, also having student location information, faculty information, faculty shifts, classes or rooms which are available or occupied at current time and other details. Here’s a summary:
 
-      If asking for location for student by their enrollment: ${enrollment} or name: ${name} at particular time: ${time} and on particular day: ${day} then location is: ${searchedStudentLocation}.
-      
+      If asking for location for student by their enrollment: ${enrollment} or name: ${name} at particular time: ${time} and on particular day: ${day} then location is: ${searchedStudentLocation}. If asking for current location then ignore this information go to ahead. 
+
       Student Information:
       ${studentsData}
 
-      Student Location Information:
+      Student current Location Information:
       ${studentLocationData}
 
       Faculty Information:
       ${facultyData}
 
-      Schedule Information or Current and Next Class Information:
-      ${scheduleData}
-      If no any data provided about current class then say like No current class available in schedule and If no any data provided about next class then say like No next class available in schedule.
-
-
-      Timetable Information:
-      ${timetablesData}
-
-      My Shifts Information:
+      Shift Information:
       ${shiftData}
 
       Class or Lab or Room Information:
@@ -365,4 +258,4 @@ if(timetableData){
   );
 };
 
-export default FacultyChatbot;
+export default PrincipalChatbot;

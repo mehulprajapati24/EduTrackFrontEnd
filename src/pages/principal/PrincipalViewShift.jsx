@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AdminViewShift = () => {
+const PrincipalViewShift = () => {
   const [shifts, setShifts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [academicYearsList, setAcademicYearsList] = useState([]);
@@ -122,4 +122,4 @@ const AdminViewShift = () => {
   );
 };
 
-export default AdminViewShift;
+export default PrincipalViewShift;

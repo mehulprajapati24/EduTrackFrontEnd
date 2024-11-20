@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
 
-const AdminSearchFaculty = () => {
+const PrincipalSearchFaculty = () => {
   const [faculties, setFaculties] = useState([]);  // Set faculties to an empty array initially
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFaculty, setSelectedFaculty] = useState(null);
@@ -160,7 +160,7 @@ const AdminSearchFaculty = () => {
   );
 };
 
-export default AdminSearchFaculty;
+export default PrincipalSearchFaculty;
 
 
 

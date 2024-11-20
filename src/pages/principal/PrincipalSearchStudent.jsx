@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
 
-const AdminSearchStudent = () => {
+const PrincipalSearchStudent = () => {
   const [students, setStudents] = useState([]);  // Set students to an empty array initially
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -11,7 +11,18 @@ const AdminSearchStudent = () => {
   const [selectedAcademicYear, setSelectedAcademicYear] = useState("");
   const [semester, setSemester] = useState("");
 
-  
+  useEffect(() => {
+    // Fetch available academic years
+    const fetchAcademicYears = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        setAcademicYearsList(response.data.years);
+      } catch (error) {
+        console.error('Error fetching academic years:', error);
+      }
+    };
+    fetchAcademicYears();
+  }, []);
 
   useEffect(() => {
     // Fetch available academic years
@@ -166,4 +177,4 @@ const AdminSearchStudent = () => {
   );
 };
 
-export default AdminSearchStudent;
+export default PrincipalSearchStudent;

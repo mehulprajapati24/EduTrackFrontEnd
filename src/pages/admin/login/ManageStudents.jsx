@@ -1,362 +1,172 @@
-import React, { useState, useEffect } from 'react';
-import ViewStudents from './ViewStudents';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageStudents = () => {
+  const navigate = useNavigate();
+  const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  const [academicYearsList, setAcademicYearsList] = useState([]);
+  const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
+  const [semester, setSemester] = useState('');
+
   useEffect(() => {
-    // Scroll to the top of the page when the component mounts
-    window.scrollTo(0, 0);
+    if(selectedAcademicYear && semester){
+      const fetchStudents = async () => {
+        try {
+          const response = await axios.post("http://localhost:5000/admin/manage-students", {
+            academicYear : selectedAcademicYear,
+            semester
+          });
+          setStudents(response.data.students);
+          setFilteredStudents(response.data.students); // Initialize filtered list
+        } catch (error) {
+          console.error("Error fetching students:", error);
+        }
+      };
+  
+      fetchStudents();
+    }
+  }, [selectedAcademicYear, semester]);
+
+  useEffect(() => {
+    // Fetch available academic years
+    const fetchAcademicYears = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        setAcademicYearsList(response.data.years);
+      } catch (error) {
+        console.error('Error fetching academic years:', error);
+      }
+    };
+    fetchAcademicYears();
   }, []);
 
-  const [students, setStudents] = useState([]);
-  const [newStudent, setNewStudent] = useState({
-    name: '',
-    enrollment: '',
-    class: '',
-    batch: '',
-    branch: '',
-    commuterHosteller: '', // Updated field
-    phone: '',
-    parentPhone: '',
-    personalEmail: '',
-    gnuEmail: '',
-    photo: null,
-    semester: '',
-    academicYear: ''
-  });
+  // Filter students based on the search term
+  useEffect(() => {
+    const filtered = students.filter(
+      (student) =>
+        student.enrollment.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredStudents(filtered);
+  }, [searchTerm, students]);
 
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [showViewStudents, setShowViewStudents] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-
-  // Example options
-  const classes = ['Class 1', 'Class 2', 'Class 3'];
-  const batches = ['Batch A', 'Batch B', 'Batch C'];
-  const commuterHostellers = ['Commuter', 'Hosteller'];
-  const semesters = ['Semester 1', 'Semester 2', 'Semester 3'];
-  const academicYears = ['2024-2025', '2025-2026', '2026-2027'];
-
-  const handleNewStudentChange = (e) => {
-    setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
-  };
-
-  const handlePhotoUpload = (e) => {
-    setNewStudent({ ...newStudent, photo: URL.createObjectURL(e.target.files[0]) });
-  };
-
-  const handleNewStudentSubmit = (e) => {
-    e.preventDefault();
-    setStudents([...students, { ...newStudent, id: students.length + 1 }]);
-    setNewStudent({
-      name: '',
-      enrollment: '',
-      class: '',
-      batch: '',
-      branch: '',
-      commuterHosteller: '', // Updated field
-      phone: '',
-      parentPhone: '',
-      personalEmail: '',
-      gnuEmail: '',
-      photo: null,
-      semester: '',
-      academicYear: ''
+  const handleUpdate = (id) => {
+    // console.log(`Update student with ID: ${id}`);
+    // Implement the update logic here
+    navigate('/admin/update-student', {
+      state: {
+        id
+      }
     });
   };
 
-  const handleEdit = (student) => {
-    setSelectedStudent(student);
-    setShowModal(true);
-  };
-
-  const handleDelete = (id) => {
-    setStudents(students.filter(student => student.id !== id));
-  };
-
-  const handleModalChange = (e) => {
-    setSelectedStudent({ ...selectedStudent, [e.target.name]: e.target.value });
-  };
-
-  const handleModalPhotoUpload = (e) => {
-    setSelectedStudent({ ...selectedStudent, photo: URL.createObjectURL(e.target.files[0]) });
-  };
-
-  const handleModalSubmit = () => {
-    setStudents(students.map(student => student.id === selectedStudent.id ? selectedStudent : student));
-    setShowModal(false);
-  };
-
-  const handleViewDetails = (student) => {
-    setSelectedStudent(student);
-    setShowDetails(true);
+  const handleDelete = async (id) => {
+    // console.log(`Delete student with ID: ${id}`);
+    // Implement the delete logic here
+    const response = await axios.post('http://localhost:5000/admin/delete-student', {
+      id
+    });
+    setStudents(students.filter((student) => student._id !== id));
+    setFilteredStudents(students.filter((student) => student._id !== id));
+    toast.success("Student deleted successfully!", { autoClose: 2000 });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-100 to-blue-200 p-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">Manage Students</h1>
+    <div className="min-h-screen p-8 bg-gradient-to-r from-blue-200 to-blue-400 rounded">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold">Manage Students</h2>
+        <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        <Link to="/admin/add-student">
+          Add Student
+        </Link>
+        </button>
+      </div>
 
-      {!showViewStudents ? (
-        <>
-          <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 className="text-xl font-semibold mb-4">Add New Student</h2>
-            <form onSubmit={handleNewStudentSubmit} className="space-y-4">
-              {/* First row for Academic Year and Semester */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium">Academic Year</label>
-                  <select
-                    name="academicYear"
-                    className="p-2 w-full rounded-lg border"
-                    value={newStudent.academicYear}
-                    onChange={handleNewStudentChange}
-                    required
-                  >
-                    <option value="">Select Academic Year</option>
-                    {academicYears.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium">Semester</label>
-                  <select
-                    name="semester"
-                    className="p-2 w-full rounded-lg border"
-                    value={newStudent.semester}
-                    onChange={handleNewStudentChange}
-                    required
-                  >
-                    <option value="">Select Semester</option>
-                    {semesters.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Other fields */}
-              <div className="grid grid-cols-2 gap-4">
-                {Object.keys(newStudent).map((key) => (
-                  key !== 'photo' && key !== 'academicYear' && key !== 'semester' ? (
-                    key === 'class' || key === 'batch' || key === 'commuterHosteller' ? (
-                      <div key={key}>
-                        <label className="block text-sm font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
-                        <select
-                          name={key}
-                          className="p-2 w-full rounded-lg border"
-                          value={newStudent[key]}
-                          onChange={handleNewStudentChange}
-                          required
-                        >
-                          <option value="">Select {key.replace(/([A-Z])/g, ' $1')}</option>
-                          {key === 'class' && classes.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                          {key === 'batch' && batches.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                          {key === 'commuterHosteller' && commuterHostellers.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                        </select>
-                      </div>
-                    ) : (
-                      <div key={key}>
-                        <label className="block text-sm font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
-                        <input
-                          type={key === 'personalEmail' || key === 'gnuEmail' ? 'email' : 'text'}
-                          name={key}
-                          className="p-2 w-full rounded-lg border"
-                          value={newStudent[key]}
-                          onChange={handleNewStudentChange}
-                          required
-                        />
-                      </div>
-                    )
-                  ) : null
-                ))}
-                <div>
-                  <label className="block text-sm font-medium">Photo</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="p-2 w-full rounded-lg border"
-                    onChange={handlePhotoUpload}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center mt-4">
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
-                >
-                  Add Student
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <button
-            onClick={() => setShowViewStudents(true)}
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+      <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-gray-700 font-bold mb-2">Academic Year</label>
+          <select
+            className="w-full p-2 rounded border"
+            value={selectedAcademicYear}
+            onChange={(e) => setSelectedAcademicYear(e.target.value)}
           >
-            View All Students
-          </button>
-        </>
-      ) : (
-        <ViewStudents
-          students={students}
-          setShowViewStudents={setShowViewStudents}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onViewDetails={handleViewDetails}
-        />
-      )}
-
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-            <h2 className="text-xl font-semibold mb-4">Edit Student</h2>
-            <form onSubmit={(e) => { e.preventDefault(); handleModalSubmit(); }} className="space-y-4">
-              {/* First row for Academic Year and Semester */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium">Academic Year</label>
-                  <select
-                    name="academicYear"
-                    className="p-2 w-full rounded-lg border"
-                    value={selectedStudent.academicYear}
-                    onChange={handleModalChange}
-                    required
-                  >
-                    <option value="">Select Academic Year</option>
-                    {academicYears.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium">Semester</label>
-                  <select
-                    name="semester"
-                    className="p-2 w-full rounded-lg border"
-                    value={selectedStudent.semester}
-                    onChange={handleModalChange}
-                    required
-                  >
-                    <option value="">Select Semester</option>
-                    {semesters.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Other fields */}
-              <div className="grid grid-cols-2 gap-4">
-                {Object.keys(selectedStudent).map((key) => (
-                  key !== 'photo' && key !== 'academicYear' && key !== 'semester' ? (
-                    key === 'class' || key === 'batch' || key === 'commuterHosteller' ? (
-                      <div key={key}>
-                        <label className="block text-sm font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
-                        <select
-                          name={key}
-                          className="p-2 w-full rounded-lg border"
-                          value={selectedStudent[key]}
-                          onChange={handleModalChange}
-                          required
-                        >
-                          <option value="">Select {key.replace(/([A-Z])/g, ' $1')}</option>
-                          {key === 'class' && classes.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                          {key === 'batch' && batches.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                          {key === 'commuterHosteller' && commuterHostellers.map((option) => (
-                            <option key={option} value={option}>{option}</option>
-                          ))}
-                        </select>
-                      </div>
-                    ) : (
-                      <div key={key}>
-                        <label className="block text-sm font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
-                        <input
-                          type={key === 'personalEmail' || key === 'gnuEmail' ? 'email' : 'text'}
-                          name={key}
-                          className="p-2 w-full rounded-lg border"
-                          value={selectedStudent[key]}
-                          onChange={handleModalChange}
-                          required
-                        />
-                      </div>
-                    )
-                  ) : null
-                ))}
-                <div>
-                  <label className="block text-sm font-medium">Photo</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="p-2 w-full rounded-lg border"
-                    onChange={handleModalPhotoUpload}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center mt-4">
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-                >
-                  Save Changes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 ml-4"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+            <option value="">Select Academic Year</option>
+            {academicYearsList.map((year, index) => (
+              <option key={index} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
-
-      {showDetails && selectedStudent && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-            <h2 className="text-xl font-semibold mb-4">Student Details</h2>
-            <div className="space-y-4">
-              {Object.keys(selectedStudent).map((key) => (
-                key !== 'photo' && key !== 'academicYear' && key !== 'semester' ? (
-                  <div key={key}>
-                    <strong className="block text-sm font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}:</strong>
-                    <p className="text-sm">{selectedStudent[key]}</p>
-                  </div>
-                ) : null
-              ))}
-              {selectedStudent.photo && (
-                <div>
-                  <strong className="block text-sm font-medium">Photo:</strong>
-                  <img src={selectedStudent.photo} alt="Student" className="mt-2 w-32 h-32 object-cover" />
-                </div>
-              )}
-            </div>
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={() => setShowDetails(false)}
-                className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-              >
-                Close
-              </button>
-            </div>
-          </div>
+        <div>
+          <label className="block text-gray-700 font-bold mb-2">Semester</label>
+          <select
+            className="w-full p-2 rounded border"
+            value={semester}
+            onChange={(e) => setSemester(e.target.value)}
+          >
+            <option value="">Select Semester</option>
+            <option value="Odd">Odd</option>
+            <option value="Even">Even</option>
+          </select>
         </div>
-      )}
+      </div>
+
+      <input
+        type="text"
+        placeholder="Search by enrollment or name"
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white shadow-md rounded">
+          <thead className="bg-blue-500 text-white">
+            <tr>
+              <th className="py-3 px-4 text-left">Enrollment</th>
+              <th className="py-3 px-4 text-left">Name</th>
+              <th className="py-3 px-4 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map((student) => (
+                <tr
+                  key={student._id}
+                  className="border-b hover:bg-gray-100 transition">
+                  <td className="py-3 px-4">{student.enrollment}</td>
+                  <td className="py-3 px-4">{student.name}</td>
+                  <td className="py-3 px-4 text-center">
+                    <button
+                      className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 mr-2"
+                      onClick={() => handleUpdate(student._id)}>
+                      Update
+                    </button>
+                    <button
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                      onClick={() => handleDelete(student._id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" className="py-3 px-4 text-center">
+                  No students found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <ToastContainer />
     </div>
   );
 };
