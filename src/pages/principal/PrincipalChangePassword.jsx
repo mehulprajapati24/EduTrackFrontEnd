@@ -45,7 +45,7 @@ const PrincipalChangePassword = () => {
 
     try {
       // Replace with your API endpoint and necessary request body
-      const response = await axios.post("http://localhost:5000/principal/change-password", { email, password });
+      const response = await axios.post("https://edutrackbackend-opga.onrender.com/principal/change-password", { email, password });
 
       if (response.data.error) {
         // Handle error response

@@ -12,7 +12,7 @@ const PrincipalAcademicYear = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/add-academicyear', {
+      const response = await axios.post('https://edutrackbackend-opga.onrender.com/admin/add-academicyear', {
         academicYear,
         semester,
       });

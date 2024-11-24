@@ -17,7 +17,7 @@ const ManageFaculties = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-opga.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -31,7 +31,7 @@ const ManageFaculties = () => {
     if(selectedAcademicYear && semester){
     const fetchFaculties = async () => {
       try {
-        const response = await axios.post("http://localhost:5000/admin/manage-faculties",{
+        const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/manage-faculties",{
           academicYear : selectedAcademicYear,
           semester
         });
@@ -68,7 +68,7 @@ const ManageFaculties = () => {
   const handleDelete = async (id) => {
     // console.log(`Delete faculty with ID: ${id}`);
     // Implement the delete logic here
-    const response = await axios.post('http://localhost:5000/admin/delete-faculty', {
+    const response = await axios.post('https://edutrackbackend-opga.onrender.com/admin/delete-faculty', {
       id
     });
     setFaculties(faculties.filter((faculty) => faculty._id !== id));

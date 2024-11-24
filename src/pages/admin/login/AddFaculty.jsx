@@ -12,18 +12,20 @@ const AddFaculty = () => {
   const [branch, setBranch] = useState("");
   const [phone, setPhone] = useState("");
   const [gnuEmail, setGnuEmail] = useState("");
+  const [facultyClassField, setFacultyClassField] = useState("");
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/admin/add-faculty", {
+      const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/add-faculty", {
         academicYear: selectedAcademicYear,
         semester,
         enrollment,
         name,
         branch,
         phone,
-        gnuEmail
+        gnuEmail,
+        facultyClassField
       });
     //   alert();
       toast.success("Faculty added successfully!", { autoClose: 2000 });
@@ -35,6 +37,7 @@ const AddFaculty = () => {
     setSemester("");
     setPhone("");
     setGnuEmail("");
+    setFacultyClassField("");
 
     
     //   console.log("Response:", response.data);
@@ -49,7 +52,7 @@ const AddFaculty = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-opga.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -143,6 +146,17 @@ const AddFaculty = () => {
               onChange={(e) => setGnuEmail(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter GNU email"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Faculty's Short Name</label>
+            <input
+              type="text"
+              value={facultyClassField}
+              onChange={(e) => setFacultyClassField(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter faculty's short name"
             />
           </div>
         </div>

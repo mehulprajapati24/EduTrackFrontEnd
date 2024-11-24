@@ -11,7 +11,7 @@ const SearchStudent = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/get-students-data');
+        const response = await axios.get('https://edutrackbackend-opga.onrender.com/admin/get-students-data');
         setStudents(response.data.students);
       } catch (error) {
         console.error('Error fetching student data:', error);
@@ -35,7 +35,7 @@ const SearchStudent = () => {
 
   const handleStudentClick = async (student) => {
     try {
-      const response = await axios.post('http://localhost:5000/admin/get-student-location', { className: student.class, batch: student.batch });
+      const response = await axios.post('https://edutrackbackend-opga.onrender.com/admin/get-student-location', { className: student.class, batch: student.batch });
       setLocation(response.data.location);
       setTime(response.data.time);
       setSelectedStudent(student);
@@ -61,9 +61,9 @@ const SearchStudent = () => {
 
       {/* Students Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredStudents.map((student) => (
+        {filteredStudents.map((student, index) => (
           <div
-            key={student.enrollment}
+            key={index}
             className="bg-white p-6 rounded-lg shadow-lg cursor-pointer transform transition duration-500 hover:scale-105"
             onClick={() => handleStudentClick(student)}
           >

@@ -11,12 +11,13 @@ import axios from 'axios';
 function App() {
 
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true); 
   useEffect(() => {
     const checkStudentData = async () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("http://localhost:5000/fetchProfile", {
+          const response = await axios.get("https://edutrackbackend-opga.onrender.com/fetchProfile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -24,17 +25,31 @@ function App() {
 
           if (response.data.error) {
             navigate("/login");
+          } else {
+            setIsLoading(false); // Authorization successful
           }
         } else {
           navigate("/login");
         }
       } catch (error) {
-        console.log("Error:", error);
+        navigate("/login");
       }
     };
 
     checkStudentData();
   }, [navigate]);
+
+  if (isLoading) {
+    // Render loading spinner
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+          <span className="ml-4 text-blue-500 text-lg font-semibold">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='max-w-screen-2xl mx-auto'>

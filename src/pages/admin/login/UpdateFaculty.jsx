@@ -18,11 +18,12 @@ const UpdateFaculty = () => {
   const [semester, setSemester] = useState("");
   const [phone, setPhone] = useState("");
   const [gnuEmail, setGnuEmail] = useState("");
+  const [facultyClassField, setFacultyClassField] = useState("");
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/admin/update-faculty-with-data", {
+      const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/update-faculty-with-data", {
         id: facultyId,
         academicYear: selectedAcademicYear,
         enrollment,
@@ -30,7 +31,8 @@ const UpdateFaculty = () => {
         branch,
         semester,
         phone,
-        gnuEmail
+        gnuEmail,
+        facultyClassField
       });
     //   alert();
       toast.success("Faculty updated successfully!", { autoClose: 2000 });
@@ -42,6 +44,7 @@ const UpdateFaculty = () => {
     setSemester("");
     setPhone("");
     setGnuEmail("");
+    setFacultyClassField("");
     
     } catch (error) {
       console.error("Error adding faculty:", error);
@@ -52,7 +55,7 @@ const UpdateFaculty = () => {
   useEffect(() => {
 
     const fetchFacultyById = async ()=> {
-    const response = await axios.post("http://localhost:5000/admin/get-faculty-for-update", {
+    const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/get-faculty-for-update", {
         id
     });
      const faculty = response.data.faculty;
@@ -66,6 +69,7 @@ const UpdateFaculty = () => {
     setSemester(faculty.semester);
     setPhone(faculty.phone);
     setGnuEmail(faculty.gnuemail);
+    setFacultyClassField(faculty.facultyClassField);
     }
 
     fetchFacultyById();
@@ -76,7 +80,7 @@ const UpdateFaculty = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-opga.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -170,6 +174,17 @@ const UpdateFaculty = () => {
               onChange={(e) => setGnuEmail(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter GNU email"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Faculty's Short Name</label>
+            <input
+              type="text"
+              value={facultyClassField}
+              onChange={(e) => setFacultyClassField(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter faculty's short name"
             />
           </div>
         
