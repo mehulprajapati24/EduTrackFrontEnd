@@ -60,7 +60,7 @@ const ManageClassBatch = () => {
     console.log(classBatchData);
 
     try {
-      const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/create-class-batch", {
+      const response = await axios.post("https://edutrackbackend-77k7.onrender.com/admin/create-class-batch", {
         academicYear: academicYear,
         semester: semester,
         classes: classBatchData,

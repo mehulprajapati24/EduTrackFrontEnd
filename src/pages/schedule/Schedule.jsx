@@ -12,7 +12,7 @@ const Schedule = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get('https://edutrackbackend-opga.onrender.com/getSchedule', {
+          const response = await axios.get('https://edutrackbackend-77k7.onrender.com/getSchedule', {
             headers: {
               Authorization: `Bearer ${token}`,
             },

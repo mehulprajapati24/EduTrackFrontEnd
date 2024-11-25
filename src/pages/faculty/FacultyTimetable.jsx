@@ -22,7 +22,7 @@ const FacultyTimetable = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edutrackbackend-opga.onrender.com/faculty/getFacultyTimetable", {
+        const response = await axios.get("https://edutrackbackend-77k7.onrender.com/faculty/getFacultyTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -48,7 +48,7 @@ const FacultyTimetable = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get(`https://edutrackbackend-opga.onrender.com/faculty/getFacultyTimetableBasedOnDay?day=${day}`, {
+        const response = await axios.get(`https://edutrackbackend-77k7.onrender.com/faculty/getFacultyTimetableBasedOnDay?day=${day}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -74,7 +74,7 @@ const FacultyTimetable = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get(`https://edutrackbackend-opga.onrender.com/faculty/getFacultyTimetableBasedOnTime?day=${selectedDay}&time=${time}`, {
+        const response = await axios.get(`https://edutrackbackend-77k7.onrender.com/faculty/getFacultyTimetableBasedOnTime?day=${selectedDay}&time=${time}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

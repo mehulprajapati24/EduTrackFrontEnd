@@ -48,7 +48,7 @@ const ManageSession = () => {
     // Handle form submission logic
     console.log(academicYear, semester, times.map(formatTime));
 
-    const response = await axios.post('https://edutrackbackend-opga.onrender.com/admin/create-session', {
+    const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/create-session', {
       academicYear,
       semester,
       times: times.map(formatTime),

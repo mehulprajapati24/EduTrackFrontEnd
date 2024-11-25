@@ -17,7 +17,7 @@ const AddPrincipal = () => {
     }
 
     try {
-      const response = await axios.post("https://edutrackbackend-opga.onrender.com/admin/addPrincipal", { email });
+      const response = await axios.post("https://edutrackbackend-77k7.onrender.com/admin/addPrincipal", { email });
       if (response.data.success) {
         toast.success(response.data.message, { autoClose: 2000 });
         setEmail('');
