@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useNavigate } from 'react-router-dom';
 
 // Initialize the GoogleGenerativeAI client
-const genAI = new GoogleGenerativeAI("AIzaSyDRHXbqwe9ysTXlIzgQUFtANpkojuwRsh0");
+const genAI = new GoogleGenerativeAI(""); //add api key
 
 const FacultyChatbot = () => {
   const navigate = useNavigate();
