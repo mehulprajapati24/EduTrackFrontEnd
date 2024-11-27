@@ -12,7 +12,7 @@ const FacultyLocation = () => {
   useEffect(() => {
     const fetchFaculties = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-faculty-data');
+        const response = await axios.get('http://localhost:5000/admin/get-faculty-data');
         setFaculties(response.data.faculties);
       } catch (error) {
         console.error('Error fetching faculty data:', error);
@@ -42,7 +42,7 @@ const FacultyLocation = () => {
     try {
       const nameParts = selectedFaculty.name.split(' ').filter(part => part);
       const shortName = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
-      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/get-faculty-location', { facultyName: selectedFaculty.facultyClassField });
+      const response = await axios.post('http://localhost:5000/admin/get-faculty-location', { facultyName: selectedFaculty.facultyClassField });
       
       setLocation(response.data.location);
       setTime(response.data.time);

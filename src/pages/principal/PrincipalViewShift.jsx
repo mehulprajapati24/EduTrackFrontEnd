@@ -12,7 +12,7 @@ const PrincipalViewShift = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -23,7 +23,7 @@ const PrincipalViewShift = () => {
 
   const fetchShifts = async () => {
     try {
-      const response = await axios.post("https://edutrackbackend-itns.onrender.com/admin/viewShifts", {
+      const response = await axios.post("http://localhost:5000/admin/viewShifts", {
         academicYear: selectedAcademicYear,
         semester,
       });

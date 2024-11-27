@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the GoogleGenerativeAI client
-const genAI = new GoogleGenerativeAI(""); //add api key
+const genAI = new GoogleGenerativeAI(" ");
 
 const PrincipalChatbot = () => {
   const [messages, setMessages] = useState([
@@ -19,7 +19,7 @@ const PrincipalChatbot = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-students-data');
+      const response = await axios.get('http://localhost:5000/admin/get-students-data');
       setStudents(response.data.students);
       // console.log(response.data.students);
     } catch (error) {
@@ -29,7 +29,7 @@ const PrincipalChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -38,7 +38,7 @@ const PrincipalChatbot = () => {
 
   const fetchShifts = async () => {
     try {
-      const response = await axios.get("https://edutrackbackend-itns.onrender.com/admin/viewShifts");
+      const response = await axios.get("http://localhost:5000/admin/viewShifts");
       setShifts(response.data.shift);
     } catch (error) {
       console.error("Error fetching shift data:", error);
@@ -47,7 +47,7 @@ const PrincipalChatbot = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
+      const response = await axios.get('http://localhost:5000/admin/get-room-data'); // Adjust API endpoint as needed
       setRooms(response.data.rooms);
     } catch (error) {
       console.error('Error fetching room data:', error);
@@ -56,7 +56,7 @@ const PrincipalChatbot = () => {
 
   const fetchStudentLocation = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-students-location'); // Adjust API endpoint as needed
+      const response = await axios.get('http://localhost:5000/admin/get-students-location'); // Adjust API endpoint as needed
       setStudentsWithLocation(response.data.studentWithLocation);
     } catch (error) {
       console.error('Error fetching student location data:', error);
@@ -137,7 +137,7 @@ const PrincipalChatbot = () => {
       const dayMatch = inputData.match(dayPattern);
       const day = dayMatch ? dayMatch[0] : null;
 
-      const responseLocation = await axios.post('https://edutrackbackend-itns.onrender.com/admin/get-student-location-based-on-prompt',{
+      const responseLocation = await axios.post('http://localhost:5000/admin/get-student-location-based-on-prompt',{
         enrollment,
         name,
         time,

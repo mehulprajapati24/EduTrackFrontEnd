@@ -15,7 +15,7 @@ const AdminOtpLogin = () => {
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("https://edutrackbackend-itns.onrender.com/admin/otp", { email });
+    const response = await axios.post("http://localhost:5000/admin/otp", { email });
     setError('');
   };
 
@@ -23,7 +23,7 @@ const AdminOtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/forgot-password/otp', { email, otp });
+      const response = await axios.post('http://localhost:5000/admin/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);

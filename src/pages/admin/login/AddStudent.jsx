@@ -22,7 +22,7 @@ const AddStudent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://edutrackbackend-itns.onrender.com/admin/add-student", {
+      const response = await axios.post("http://localhost:5000/admin/add-student", {
         academicYear: selectedAcademicYear,
         sem,
         enrollment,
@@ -66,7 +66,7 @@ const AddStudent = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);

@@ -17,7 +17,7 @@ const ManageStudents = () => {
     if(selectedAcademicYear && semester){
       const fetchStudents = async () => {
         try {
-          const response = await axios.post("https://edutrackbackend-itns.onrender.com/admin/manage-students", {
+          const response = await axios.post("http://localhost:5000/admin/manage-students", {
             academicYear : selectedAcademicYear,
             semester
           });
@@ -36,7 +36,7 @@ const ManageStudents = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -68,7 +68,7 @@ const ManageStudents = () => {
   const handleDelete = async (id) => {
     // console.log(`Delete student with ID: ${id}`);
     // Implement the delete logic here
-    const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/delete-student', {
+    const response = await axios.post('http://localhost:5000/admin/delete-student', {
       id
     });
     setStudents(students.filter((student) => student._id !== id));
