@@ -19,7 +19,7 @@ const PrincipalForgotPassword = () => {
       return;
     }
 
-    const response = await axios.post("https://edutrackbackend-77k7.onrender.com/principal/otp", { email });
+    const response = await axios.post("https://edutrackbackend-itns.onrender.com/principal/otp", { email });
 
     if(response.data.error){
       setError(response.data.message);

@@ -14,7 +14,7 @@ const Profile = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/fetchProfile', {
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/fetchProfile', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -47,7 +47,7 @@ const Profile = () => {
           const token = localStorage.getItem('accessToken');
           if (token) {
             await axios.post(
-              'https://edutrackbackend-77k7.onrender.com/updateProfileImage',
+              'https://edutrackbackend-itns.onrender.com/updateProfileImage',
               { image: cdnUrl },
               {
                 headers: {

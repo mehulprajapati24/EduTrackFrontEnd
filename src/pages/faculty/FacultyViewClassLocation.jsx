@@ -14,7 +14,7 @@ const FacultyViewClassLocation = () => {
   const fetchClassOptions = async () => {
     try {
       const response = await axios.post(
-        'https://edutrackbackend-77k7.onrender.com/faculty/get-class-timetables-sheetname'
+        'https://edutrackbackend-itns.onrender.com/faculty/get-class-timetables-sheetname'
       );
       setOptions(response.data.sheets);
     } catch (error) {
@@ -31,7 +31,7 @@ const FacultyViewClassLocation = () => {
     setSelectedClass(selectedClass);
     try {
       const response = await axios.post(
-        'https://edutrackbackend-77k7.onrender.com/faculty/get-location-based-on-class-selection',
+        'https://edutrackbackend-itns.onrender.com/faculty/get-location-based-on-class-selection',
         {
           selectedClass,
         }

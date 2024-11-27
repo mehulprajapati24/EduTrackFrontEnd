@@ -15,7 +15,7 @@ const PrincipalOtpLogin = () => {
   }
 
   const resendOtp = async () => {
-    const response = await axios.post("https://edutrackbackend-77k7.onrender.com/principal/otp", { email });
+    const response = await axios.post("https://edutrackbackend-itns.onrender.com/principal/otp", { email });
     setError('');
   };
 
@@ -23,7 +23,7 @@ const PrincipalOtpLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://edutrackbackend-77k7.onrender.com/principal/forgot-password/otp', { email, otp });
+      const response = await axios.post('https://edutrackbackend-itns.onrender.com/principal/forgot-password/otp', { email, otp });
       
       if (response.data.error) {
         setError(response.data.message);

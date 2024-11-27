@@ -13,7 +13,7 @@ const PrincipalSelectAcademicYearSemester = () => {
   useEffect(() => {
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -27,7 +27,7 @@ const PrincipalSelectAcademicYearSemester = () => {
     if (selectedAcademicYear && selectedSemester) {
         try {
             // Make POST request
-            const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/selected-year', {
+            const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/selected-year', {
               academicYear: selectedAcademicYear,
               semester: selectedSemester,
             });

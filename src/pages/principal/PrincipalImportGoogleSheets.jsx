@@ -13,7 +13,7 @@ const PrincipalImportGoogleSheets = () => {
   useEffect(() => {
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -41,7 +41,7 @@ const PrincipalImportGoogleSheets = () => {
           setLoading(true);  // Show loader
 
           // Send the Google Sheet ID, academic year, and semester
-          const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/add-sheet-id', { 
+          const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/add-sheet-id', { 
             sheetId,
             academicYear,
             semester 

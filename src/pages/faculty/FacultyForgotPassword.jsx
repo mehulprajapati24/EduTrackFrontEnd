@@ -19,7 +19,7 @@ const FacultyForgotPassword = () => {
       return;
     }
 
-    const response = await axios.post("https://edutrackbackend-77k7.onrender.com/faculty/otp", { email });
+    const response = await axios.post("https://edutrackbackend-itns.onrender.com/faculty/otp", { email });
 
     if(response.data.error){
       setError(response.data.message);

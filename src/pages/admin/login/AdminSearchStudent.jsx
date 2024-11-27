@@ -17,7 +17,7 @@ const AdminSearchStudent = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -28,7 +28,7 @@ const AdminSearchStudent = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/get-students-data',{
+      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/get-students-data',{
         academicYear: selectedAcademicYear,
         semester,
       });
@@ -60,7 +60,7 @@ const AdminSearchStudent = () => {
 
   const handleStudentClick = async (student) => {
     try {
-      const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/post-get-student-location', { className: student.class, batch: student.batch, academicYear: selectedAcademicYear, semester });
+      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/post-get-student-location', { className: student.class, batch: student.batch, academicYear: selectedAcademicYear, semester });
       setLocation(response.data.location);
       setTime(response.data.time);
       setSelectedStudent(student);

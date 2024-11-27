@@ -47,7 +47,7 @@ const AddTimetable = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/add-timetable', {
+      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/add-timetable', {
         academicYear: selectedAcademicYear, semester, weeklyTimetable, classFaculty
       });
 
@@ -74,7 +74,7 @@ const AddTimetable = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);

@@ -15,7 +15,7 @@ const PrincipalHomePage = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -27,7 +27,7 @@ const PrincipalHomePage = () => {
   // Fetch room data from server
   const fetchRooms = async () => {
     try {
-      const response = await axios.post('https://edutrackbackend-77k7.onrender.com/admin/get-room-data', {
+      const response = await axios.post('https://edutrackbackend-itns.onrender.com/admin/get-room-data', {
         academicYear: selectedAcademicYear,
         semester,
       }); // Adjust API endpoint as needed
@@ -220,7 +220,7 @@ export default PrincipalHomePage;
 //   useEffect(() => {
 //     const fetchRooms = async () => {
 //       try {
-//         const response = await axios.get('https://edutrackbackend-77k7.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
+//         const response = await axios.get('https://edutrackbackend-itns.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
 //         setRooms(response.data.rooms);
 //         setFilteredRooms(response.data.rooms); // Initially set filtered rooms to all rooms
 //       } catch (error) {

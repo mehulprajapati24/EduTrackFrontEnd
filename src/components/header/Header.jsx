@@ -15,7 +15,7 @@ const Header = () => {
             const token = localStorage.getItem('accessToken');
             if (token) {
               // Make a GET request and pass the headers as the second argument
-              const response = await axios.get('https://edutrackbackend-77k7.onrender.com/getProfile', {
+              const response = await axios.get('https://edutrackbackend-itns.onrender.com/getProfile', {
                 headers: {
                   Authorization: `Bearer ${token}`  // authorization header
                 }

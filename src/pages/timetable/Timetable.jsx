@@ -20,7 +20,7 @@ const Timetable = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get("https://edutrackbackend-77k7.onrender.com/getStudentTimetable", {
+        const response = await axios.get("https://edutrackbackend-itns.onrender.com/getStudentTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +46,7 @@ const Timetable = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get(`https://edutrackbackend-77k7.onrender.com/getStudentTimetableBasedOnDay?day=${day}`, {
+        const response = await axios.get(`https://edutrackbackend-itns.onrender.com/getStudentTimetableBasedOnDay?day=${day}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -72,7 +72,7 @@ const Timetable = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get(`https://edutrackbackend-77k7.onrender.com/getStudentTimetableBasedOnTime?day=${selectedDay}&time=${time}`, {
+        const response = await axios.get(`https://edutrackbackend-itns.onrender.com/getStudentTimetableBasedOnTime?day=${selectedDay}&time=${time}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
