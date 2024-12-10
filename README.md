@@ -63,7 +63,7 @@ npm install
 Step 7: Set Up Environment Variables
 Create a .env file.
 Add 
-VITE_GEMINI_API_KEY=your_gemini_api_key \n
+VITE_GEMINI_API_KEY=your_gemini_api_key
 VITE_ACCESS_KEY=your_web3Forms_access_key
 
 Step 8: Run the Application
