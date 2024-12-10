@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the GoogleGenerativeAI client
-const genAI = new GoogleGenerativeAI("AIzaSyCZVnvlxygVknVisjFIuROFdlyeO1sCzfY");
+const genAI = new GoogleGenerativeAI("");
 
 const StudentChatbot = () => {
   const [messages, setMessages] = useState([]);
