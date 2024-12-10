@@ -51,7 +51,7 @@ const RequirePasswordChange = () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
           const response = await axios.post(
-            'https://edutrackbackend-aq9w.onrender.com/require',
+            'http://localhost:5000/require',
             {
               password,  // data being sent
               image

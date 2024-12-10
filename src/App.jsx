@@ -17,7 +17,7 @@ function App() {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/fetchProfile", {
+          const response = await axios.get("http://localhost:5000/fetchProfile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

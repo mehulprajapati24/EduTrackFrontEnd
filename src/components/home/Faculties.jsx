@@ -9,7 +9,7 @@ const Faculties = () => {
   useEffect(() => {
     const fetchFaculties = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/getFaculties');
+        const response = await axios.get('http://localhost:5000/getFaculties');
         setFaculties(response.data.faculties);
       } catch (error) {
         console.error('Error fetching faculty data:', error);

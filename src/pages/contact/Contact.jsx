@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Contact = () => {
+    const [accessKey, setAccessKey] = useState(import.meta.env.VITE_ACCESS_KEY);
     useEffect(() => {
         window.scrollTo(0, 0);
+        setAccessKey(import.meta.env.VITE_ACCESS_KEY);
     }, []);
 
     return (
@@ -73,7 +75,7 @@ const Contact = () => {
 
                     <div className="p-4 py-6 rounded-lg bg-gray-50 md:p-8">
                         <form action="https://api.web3forms.com/submit" method="POST">
-                            <input type="hidden" name="access_key" value="acd77f4e-8265-4f57-a44d-65d54d3c5efd" />
+                            <input type="hidden" name="access_key" value={accessKey} />
                             <div className="-mx-2 md:items-center md:flex">
                                 <div className="flex-1 px-2">
                                     <label className="block mb-2 text-sm text-gray-600">Full Name</label>

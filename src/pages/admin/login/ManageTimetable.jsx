@@ -17,7 +17,7 @@ const ManageTimetable = () => {
     if (selectedAcademicYear && semester) {
       const fetchTimetables = async () => {
         try {
-          const response = await axios.post("https://edutrackbackend-aq9w.onrender.com/admin/manage-timetables", {
+          const response = await axios.post("http://localhost:5000/admin/manage-timetables", {
             academicYear: selectedAcademicYear,
             semester,
           });
@@ -36,7 +36,7 @@ const ManageTimetable = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/academicyears');
+        const response = await axios.get('http://localhost:5000/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -67,7 +67,7 @@ const ManageTimetable = () => {
   const handleDelete = async (id) => {
     // console.log(`Delete timetable with ID: ${id}`);
     // Implement the delete logic here
-    const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/delete-timetable', {
+    const response = await axios.post('http://localhost:5000/admin/delete-timetable', {
       id,
     });
     setTimetables(timetables.filter((timetable) => timetable._id !== id));

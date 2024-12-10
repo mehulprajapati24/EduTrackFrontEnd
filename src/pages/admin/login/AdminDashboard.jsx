@@ -13,7 +13,7 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (token) {
-          const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/admin/validate", {
+          const response = await axios.get("http://localhost:5000/admin/validate", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

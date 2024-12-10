@@ -26,7 +26,7 @@ const UpdateTimetable = () => {
   useEffect(() => {
     const fetchTimetableById = async () => {
       try {
-        const response = await axios.post("https://edutrackbackend-aq9w.onrender.com/admin/get-timetable-for-update", { id });
+        const response = await axios.post("http://localhost:5000/admin/get-timetable-for-update", { id });
         const timetable = response.data.timetable;
 
         setSelectedAcademicYear(timetable.academicYear);
@@ -46,7 +46,7 @@ const UpdateTimetable = () => {
   useEffect(() => {
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/admin/academicyears");
+        const response = await axios.get("http://localhost:5000/admin/academicyears");
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error("Error fetching academic years:", error);
@@ -84,7 +84,7 @@ const UpdateTimetable = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://edutrackbackend-aq9w.onrender.com/admin/update-timetable-with-data", {
+      await axios.post("http://localhost:5000/admin/update-timetable-with-data", {
         id,
         academicYear: selectedAcademicYear,
         semester,

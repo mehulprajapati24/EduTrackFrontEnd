@@ -19,7 +19,7 @@ const AdminForgotPassword = () => {
       return;
     }
 
-    const response = await axios.post("https://edutrackbackend-aq9w.onrender.com/admin/otp", { email });
+    const response = await axios.post("http://localhost:5000/admin/otp", { email });
 
     if(response.data.error){
       setError(response.data.message);

@@ -23,7 +23,7 @@ const PrincipalLogin = () => {
           }
 
           try{
-            const response = await axios.post("https://edutrackbackend-aq9w.onrender.com/principal/login", {
+            const response = await axios.post("http://localhost:5000/principal/login", {
                 email,
                 password
               });

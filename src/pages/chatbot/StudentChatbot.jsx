@@ -19,7 +19,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/fetchProfile", {
+        const response = await axios.get("http://localhost:5000/fetchProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const StudentChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -50,7 +50,7 @@ const StudentChatbot = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/getSchedule', {
+        const response = await axios.get('http://localhost:5000/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/getStudentTimetable", {
+        const response = await axios.get("http://localhost:5000/getStudentTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
