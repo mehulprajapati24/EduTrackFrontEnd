@@ -17,7 +17,7 @@ const AddAdmin = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/admin/addAdmin", { email });
+      const response = await axios.post("https://edutrackbackend-aq9w.onrender.com/admin/addAdmin", { email });
       if (response.data.success) {
         toast.success(response.data.message, { autoClose: 2000 });
         setEmail('');

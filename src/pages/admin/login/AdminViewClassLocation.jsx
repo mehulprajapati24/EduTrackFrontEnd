@@ -14,7 +14,7 @@ const AdminViewClassLocation = () => {
   const fetchClassOptions = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/admin/get-class-timetables-sheetname',
+        'https://edutrackbackend-aq9w.onrender.com/admin/get-class-timetables-sheetname',
         {
           academicYear: selectedAcademicYear,
           semester,
@@ -37,7 +37,7 @@ const AdminViewClassLocation = () => {
     setSelectedClass(selectedClass);
     try {
       const response = await axios.post(
-        'http://localhost:5000/admin/get-location-based-on-class-selection',
+        'https://edutrackbackend-aq9w.onrender.com/admin/get-location-based-on-class-selection',
         {
           academicYear: selectedAcademicYear,
           semester,
@@ -56,7 +56,7 @@ const AdminViewClassLocation = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);

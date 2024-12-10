@@ -20,7 +20,7 @@ const PrincipalViewTimetable = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -31,7 +31,7 @@ const PrincipalViewTimetable = () => {
 
   const fetchTimetableOptions = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/admin/get-timetables-sheetname',{
+      const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-timetables-sheetname',{
         academicYear: selectedAcademicYear,
         semester,
       });
@@ -58,7 +58,7 @@ const PrincipalViewTimetable = () => {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/get-timetable-basedOnSheetName', {
+      const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-timetable-basedOnSheetName', {
         sheetName: selectedSheetName,
         academicYear: selectedAcademicYear,
         semester,
@@ -80,7 +80,7 @@ const PrincipalViewTimetable = () => {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/get-daywise-timetable', {
+      const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-daywise-timetable', {
           sheetName: selectedTimetable,
           day: selectedDay,
           academicYear: selectedAcademicYear,
@@ -103,7 +103,7 @@ const PrincipalViewTimetable = () => {
         setError(null); // Reset error state
 
         try {
-          const response = await axios.post('http://localhost:5000/admin/get-timetable-based-on-time', {
+          const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-timetable-based-on-time', {
               sheetName: selectedTimetable,
               day: selectedDay,
               time: selectedTime,
@@ -373,7 +373,7 @@ export default PrincipalViewTimetable;
 //   };
 
 //   const getTimes = async () => {
-//     const response = await axios.get('http://localhost:5000/admin/gettimes', {
+//     const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/gettimes', {
 //       params: {
 //         academicYear: academicYear,
 //         semester: semester,
@@ -383,7 +383,7 @@ export default PrincipalViewTimetable;
 //   };
 
 //   const fetchTimetable = async () => {
-//     const response = await axios.get('http://localhost:5000/get-timetable', {
+//     const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/get-timetable', {
 //       params: {
 //         academicYear: academicYear,
 //         semester: semester,

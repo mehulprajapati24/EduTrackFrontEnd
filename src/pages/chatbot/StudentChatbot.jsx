@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the GoogleGenerativeAI client
-const genAI = new GoogleGenerativeAI("");
+const genAI = new GoogleGenerativeAI("AIzaSyCZVnvlxygVknVisjFIuROFdlyeO1sCzfY");
 
 const StudentChatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -19,7 +19,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("http://localhost:5000/fetchProfile", {
+        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/fetchProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const StudentChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -50,7 +50,7 @@ const StudentChatbot = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('http://localhost:5000/getSchedule', {
+        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const StudentChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("http://localhost:5000/getStudentTimetable", {
+        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/getStudentTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

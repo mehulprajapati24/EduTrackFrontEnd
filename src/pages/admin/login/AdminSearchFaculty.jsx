@@ -15,7 +15,7 @@ const AdminSearchFaculty = () => {
     // Fetch available academic years
     const fetchAcademicYears = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/academicyears');
+        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/academicyears');
         setAcademicYearsList(response.data.years);
       } catch (error) {
         console.error('Error fetching academic years:', error);
@@ -26,7 +26,7 @@ const AdminSearchFaculty = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/admin/get-faculty-data', {
+      const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-faculty-data', {
         academicYear: selectedAcademicYear,
         semester,
       }); // Adjusted API endpoint
@@ -60,7 +60,7 @@ const AdminSearchFaculty = () => {
     
       const shortName = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
     
-      const response = await axios.post('http://localhost:5000/admin/get-faculty-location', { facultyName: faculty.facultyClassField }); // Adjusted payload
+      const response = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-faculty-location', { facultyName: faculty.facultyClassField }); // Adjusted payload
       setLocation(response.data.location);
       setTime(response.data.time);
       setSelectedFaculty(faculty);

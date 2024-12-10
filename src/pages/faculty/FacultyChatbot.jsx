@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useNavigate } from 'react-router-dom';
 
 // Initialize the GoogleGenerativeAI client
-const genAI = new GoogleGenerativeAI("");
+const genAI = new GoogleGenerativeAI("AIzaSyCZVnvlxygVknVisjFIuROFdlyeO1sCzfY");
 
 const FacultyChatbot = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const FacultyChatbot = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/get-students-data');
+      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-students-data');
       setStudents(response.data.students);
       // console.log(response.data.students);
     } catch (error) {
@@ -32,7 +32,7 @@ const FacultyChatbot = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/get-faculty-data'); // Adjusted API endpoint
+      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-faculty-data'); // Adjusted API endpoint
       setFaculties(response.data.faculties);
     } catch (error) {
       console.error('Error fetching faculty data:', error);
@@ -41,7 +41,7 @@ const FacultyChatbot = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/get-room-data'); // Adjust API endpoint as needed
+      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-room-data'); // Adjust API endpoint as needed
       setRooms(response.data.rooms);
     } catch (error) {
       console.error('Error fetching room data:', error);
@@ -52,7 +52,7 @@ const FacultyChatbot = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (token) {
-        const response = await axios.get('http://localhost:5000/faculty/getSchedule', {
+        const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/faculty/getSchedule', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -72,7 +72,7 @@ const FacultyChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getFacultyTimetable", {
+        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/faculty/getFacultyTimetable", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -92,7 +92,7 @@ const FacultyChatbot = () => {
       const token = localStorage.getItem("accessToken");
 
       if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getShiftsOfFaculty", {
+        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/faculty/getShiftsOfFaculty", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -109,7 +109,7 @@ const FacultyChatbot = () => {
 
   const fetchStudentLocation = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/get-students-location'); // Adjust API endpoint as needed
+      const response = await axios.get('https://edutrackbackend-aq9w.onrender.com/admin/get-students-location'); // Adjust API endpoint as needed
       setStudentsWithLocation(response.data.studentWithLocation);
     } catch (error) {
       console.error('Error fetching room data:', error);
@@ -121,7 +121,7 @@ const FacultyChatbot = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        const response = await axios.get("http://localhost:5000/faculty/getProfile", {
+        const response = await axios.get("https://edutrackbackend-aq9w.onrender.com/faculty/getProfile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -237,7 +237,7 @@ if(timetableData){
       const dayMatch = inputData.match(dayPattern);
       const day = dayMatch ? dayMatch[0] : null;
 
-      const responseLocation = await axios.post('http://localhost:5000/admin/get-student-location-based-on-prompt',{
+      const responseLocation = await axios.post('https://edutrackbackend-aq9w.onrender.com/admin/get-student-location-based-on-prompt',{
         enrollment,
         name,
         time,
