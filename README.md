@@ -32,6 +32,7 @@ Installation and Setup
 
 Step 1: Clone the Repository of Backend
 git clone https://github.com/mehulprajapati24/EduTrackBackEnd.git
+cd EduTrackBackEnd
 
 Step 2: Install Dependencies
 npm install
