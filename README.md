@@ -1,8 +1,13 @@
-# React + Vite
+Edu-Track
+Edu-Track is a web-based management system designed to address common challenges faced by educational institutions in managing their academic and administrative tasks efficiently.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Purpose of Edu-Track
+Educational institutions often struggle with:
 
-Currently, two official plugins are available:
+Inefficient management of student, faculty, and class schedules.
+Manual processes for updating academic timetables and records.
+Difficulty in tracking academic progress.
+A lack of centralized systems to resource management.
+To solve these problems, Edu-Track was developed as a comprehensive platform to automate, organize, and optimize these processes while ensuring ease of use and accessibility for all stakeholders.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+For backend: https://github.com/mehulprajapati24/EduTrackBackEnd.git
